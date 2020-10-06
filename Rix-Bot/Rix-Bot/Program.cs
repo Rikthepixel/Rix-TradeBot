@@ -4,6 +4,30 @@ namespace Rix_Bot
 {
     public class Program
     {
+        //Here you can adjust your settings
+        static void Main(string[] args)
+        {
+            
+            Setup setup = new Setup();
+
+            // Login type: 
+            // Either manually login each time you start the application (LoginType.ManualLoginDetails) 
+            // Automatically login, but manually login the first time you start the application (LoginType.OneTimeManualDetails)
+            // or Automatically login with the Username and password set in the code below (LoginType.BuiltinLoginDetails)
+            LoginDetailType = LoginType.BuiltinLoginDetails;
+
+                //these login details are used if LoginDetailType = LoginType.BuiltinLoginDetails
+                    Username = "Tempyelectric";     //Username
+                    Password = "6VZQpNGhfQc5dLq";   //Password
+            
+            //Setup Listeners
+            setup.SetupListeners();
+        }
+
+
+        //Program setup
+        public static string Username;
+        public static string Password;
         private Setup setup;
 
         public Program(Setup setup)
@@ -14,29 +38,9 @@ namespace Rix_Bot
         public enum LoginType
         {
             ManualLoginDetails,
-            TextfileLoginDetails,
+            OneTimeManualDetails,
             BuiltinLoginDetails
         }
         public static LoginType LoginDetailType;
-
-        //Here you can adjust your settings
-        static void Main(string[] args)
-        {
-            
-            Setup setup = new Setup();
-
-            // Login type: 
-            // Either manually login (LoginType.ManualLoginDetails) 
-            // automatically login which requires the setup.UserName and setup.PassWord to function (LoginType.BuiltinLoginDetails)
-            // or use a textfile to store your Login details (LoginType.TextfileLoginDetails) 
-            LoginDetailType = LoginType.TextfileLoginDetails;
-
-                    //these login details are used if LoginDetailType = LoginType.ManualLoginDetails
-                    setup.UserName = "Tempyelectric"; //Username
-                    setup.PassWord = "6VZQpNGhfQc5dLq"; //Password
-            
-            //Setup Listeners
-            setup.SetupListeners();
-        }
     }
 }

@@ -54,7 +54,13 @@ namespace Rix_Bot
 
         public void LoginDetails(Program.LoginType loginType)
         {
-            if (loginType == Program.LoginType.TextfileLoginDetails)
+            if (loginType == Program.LoginType.BuiltinLoginDetails)
+            {
+                UserName = Program.Username;
+                PassWord = Program.Password;
+            }
+
+            if (loginType == Program.LoginType.OneTimeManualDetails)
             {
                 string AppPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
                 string LoginDetailsPath = Path.Combine(AppPath, "Login Details.txt");
@@ -72,19 +78,19 @@ namespace Rix_Bot
                 {
 
                 }
+            }
 
-                if (program.LoginDetailType == Program.LoginType.ManualLoginDetails)
-                {
-                    Console.WriteLine("Please enter Username");
-                    UserName = Console.ReadLine();
-                    Console.WriteLine("Please enter Password");
-                    PassWord = Console.ReadLine();
-                }
+            if (loginType == Program.LoginType.ManualLoginDetails)
+            {
+                Console.WriteLine("Please enter Username");
+                UserName = Console.ReadLine();
+                Console.WriteLine("Please enter Password");
+                PassWord = Console.ReadLine();
             }
         }
         public void SetupListeners()
         {
-            LoginDetails(program.LoginDetailType);
+            LoginDetails(Program.LoginDetailType);
 
             Client = new SteamClient();
             CallbackManager callbackManager = new CallbackManager(Client);

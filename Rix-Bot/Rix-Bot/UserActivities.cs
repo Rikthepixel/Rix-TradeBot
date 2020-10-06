@@ -19,13 +19,10 @@ namespace Rix_Bot
         {
             Console.WriteLine("Connected succesfully");
 
-
-
             setup.steamUser.LogOn(new SteamUser.LogOnDetails
             {
                 Username = setup.UserName,
                 Password = setup.PassWord,
-
             });
         }
         //on Disconnect function

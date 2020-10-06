@@ -31,7 +31,7 @@ namespace Rix_Bot
                 }
             }
         }
-        string aSteamID;
+        string SteamID;
         public void OnFriendAdded(SteamFriends.FriendAddedCallback callback)
         {
             SteamID = Convert.ToString(callback.SteamID);

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "OuKm0FN57cXJuTbe6bh2qEn9mIqPan0Z6ErVOOpR4A9nCGpjxER7TvG7Vjl5M+ikby0A/qPRCgrM1BbJ0Dl8dA==",
+  "dgSpecHash": "C0/Y7bM+O9J5kV7ZfqMqdhx3600Rc93Yi8pxXwwLm1k21GFn9WwknJqFjDJPalfuq0KLKLXZi6x63yOP6sW4iQ==",
   "success": true,
-  "projectFilePath": "D:\\Gebruikers\\rikde\\Documents\\github\\Rix-trader\\Rix-Bot\\Rix-Bot\\Rix-Bot.csproj",
+  "projectFilePath": "D:\\Gebruikers\\rikde\\Documents\\github\\Rix-TradeBot\\Rix-Bot\\Rix-Bot\\Rix-Bot.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\rikde\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\rikde\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
