@@ -80,9 +80,6 @@ namespace Rix_Bot
             {
                 String[] details;
 
-
-
-
                 Console.WriteLine(">> One-Time Manual login <<");
                 Console.WriteLine("Please enter Username");
                 UserName = Console.ReadLine();
