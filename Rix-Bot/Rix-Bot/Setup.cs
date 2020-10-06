@@ -26,8 +26,6 @@ namespace Rix_Bot
         // Callbacks
         //
 
-        public string UserName;
-        public string PassWord;
         public bool isRunning;
         public SteamFriends steamFriends;
         public SteamClient Client;
@@ -52,45 +50,9 @@ namespace Rix_Bot
             this.isRunning = false;
         }
 
-        public void LoginDetails(Program.LoginType loginType)
-        {
-            if (loginType == Program.LoginType.BuiltinLoginDetails)
-            {
-                UserName = Program.Username;
-                PassWord = Program.Password;
-            }
-
-            if (loginType == Program.LoginType.OneTimeManualDetails)
-            {
-                string AppPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-                string LoginDetailsPath = Path.Combine(AppPath, "Login Details.txt");
-
-                Console.WriteLine(LoginDetailsPath);
-                if (!File.Exists(LoginDetailsPath))
-                {
-                    string[] Template = { @"[Replace with Username]", @"[Replace with Password]" };
-
-                    File.Create(LoginDetailsPath);
-                    File.WriteAllLines(LoginDetailsPath, Template);
-                }
-                
-                if (File.Exists(LoginDetailsPath))
-                {
-
-                }
-            }
-
-            if (loginType == Program.LoginType.ManualLoginDetails)
-            {
-                Console.WriteLine("Please enter Username");
-                UserName = Console.ReadLine();
-                Console.WriteLine("Please enter Password");
-                PassWord = Console.ReadLine();
-            }
-        }
         public void SetupListeners()
         {
-            LoginDetails(Program.LoginDetailType);
+            UserActs.LoginDetails(Program.LoginDetailType);
 
             Client = new SteamClient();
             CallbackManager callbackManager = new CallbackManager(Client);

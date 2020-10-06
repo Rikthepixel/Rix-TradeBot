@@ -7,7 +7,6 @@ namespace Rix_Bot
         //Here you can adjust your settings
         static void Main(string[] args)
         {
-            
             Setup setup = new Setup();
 
             // Login type: 
