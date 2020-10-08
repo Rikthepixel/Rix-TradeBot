@@ -8,28 +8,39 @@ using System.Text;
 
 namespace Rix_Bot
 {
+
     public struct KeyTypes
     {
         public string[] KeyWords;
+        public string[] Response;
         public bool InMSG;
     }
 
     class MessageHandling
     {
-        bool CAny = false;
         KeyTypes Greet;
-        KeyTypes BotName;
+        KeyTypes BotNameUse;
+        bool CAny = false;
+
 
         //Keywords
         void CreateKeywords()
         {
+            KeyTypes[] keyTypes = { Greet, BotNameUse };
+            IEnumerable<bool> inmessage = from type in keyTypes
+                                          where type.InMSG.Any()
+                                          select 
             //Greeting
-            string[] greetings = { "Hello", "Hi", "Hai", "Hoi", "Howdy", "Hey", "Hoy", "Ahoy" };
+            string[] greetings = { "Hello", "Hi", "Hai", "Hoi", "Howdy", "Hey", "Hoy", "Ahoy", "Hallo" };
+            string[] greetingsResponse = { "Hello", "Hey", "Hi"};
             Greet.KeyWords = greetings;
+            Greet.Response = greetingsResponse;
 
-            //Botname
+            //BotnameUse
             string[] Botname = { setup.steamFriends.GetPersonaName() };
-            BotName.KeyWords = Botname;
+            string[] BotnameResponse = { $"That is me. What is up?" };
+            BotNameUse.KeyWords = Botname;
+            BotNameUse.Response = BotnameResponse;
         }
 
         private Setup setup;
@@ -57,7 +68,7 @@ namespace Rix_Bot
                     MSGCond = true;
                 }
             }
-            Console.WriteLine(MSGCond);
+
             if (MSGCond)
             {
                 string Q = "\"";
@@ -81,7 +92,7 @@ namespace Rix_Bot
 
             //Setup MSG Contains
             bool CTest = Contains(Message, "Test");
-            BotName.InMSG = ArrContains(Message, BotName.KeyWords);
+            BotNameUse.InMSG = ArrContains(Message, BotNameUse.KeyWords);
             Greet.InMSG = ArrContains(Message, Greet.KeyWords);
 
             //Reactions to Keywords
@@ -89,35 +100,23 @@ namespace Rix_Bot
             {
                 CAny = true;
 
-                string Resp = "This bot is still work in progress and does not have any responses yet";
+                string Resp = "I am still a work in progress, but since 8-10-2020 I do have responces!";
                 OutputMSG = $"{OutputMSG}{Resp}";
             }
             
-            //Greeting
+            //If the sender greets the bot, it will send a greeting back
             if (Greet.InMSG)
             {
-                if (CAny)
-                {
-                    string Resp = "Hello, ";
-                    OutputMSG = $"{Resp}{OutputMSG}";
-                } else if (BotName.InMSG) {
-                    string Resp = "Hello";
-                    OutputMSG = $"{Resp}{OutputMSG}";
-                } else if (CAny == false){
-                    string Resp = $"Hello {senderName}";
-                    OutputMSG = $"{Resp}";
-                }
-
-                CAny = true;
+                Greeting(senderName);
             }
 
-            //Botname
-            if (BotName.InMSG)
+            //If the botname is used in the sentence
+            if (BotNameUse.InMSG)
             {
                 string Resp;
                 if (CAny == false)
                 {
-                    Resp = $"Yes {senderName}, That is me. What's up? :D";
+                    Resp = "2";
                     OutputMSG = $"{Resp}";
                 } else if(Greet.InMSG)
                 {
@@ -131,6 +130,7 @@ namespace Rix_Bot
             return OutputMSG;
         }
 
+        //Check if the message contains a specified word
         bool Contains(string Message, string Word)
         {
             Message = Message.ToLower(); //ToLower to make sure that it is case insensitive.
@@ -139,6 +139,7 @@ namespace Rix_Bot
             return Contains;
         }
 
+        //Check if a Message contains a keyword out of an array
         bool ArrContains(string Message, string[] KeywordsArray)
         {
             bool TContains = false;
@@ -156,6 +157,30 @@ namespace Rix_Bot
             return ArrContains;
         }
 
+        string Greeting(string SenderName)
+        {
+            string OutputMSG = "";
+            bool ComeAfter;
+            if (BotNameUse.InMSG) ;
 
+            if (CAny)
+            {
+                string Resp = "Hello, ";
+                OutputMSG = $"{Resp}{OutputMSG}";
+            }
+            else if (BotNameUse.InMSG)
+            {
+                string Resp = "Hello";
+                OutputMSG = $"{Resp}{OutputMSG}";
+            }
+            else if (CAny == false)
+            {
+                string Resp = $"Hello {SenderName}";
+                OutputMSG = $"{Resp}";
+            }
+
+            CAny = true;
+            return OutputMSG;
+        }
     }
 }
