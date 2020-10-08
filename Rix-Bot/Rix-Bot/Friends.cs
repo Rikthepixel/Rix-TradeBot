@@ -31,10 +31,8 @@ namespace Rix_Bot
                 }
             }
         }
-        string SteamID;
         public void OnFriendAdded(SteamFriends.FriendAddedCallback callback)
         {
-            SteamID = Convert.ToString(callback.SteamID);
             Console.WriteLine($"{callback.PersonaName}, {callback.SteamID} is now our friend.");
             setup.steamFriends.SendChatMessage(callback.SteamID, EChatEntryType.ChatMsg, $"Hello, I am a bot, {callback.PersonaName}. As of yet i have no functionality! :'(");
         }
