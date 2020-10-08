@@ -1,18 +1,18 @@
 {
   "version": 2,
-  "dgSpecHash": "C0/Y7bM+O9J5kV7ZfqMqdhx3600Rc93Yi8pxXwwLm1k21GFn9WwknJqFjDJPalfuq0KLKLXZi6x63yOP6sW4iQ==",
+  "dgSpecHash": "lAcQgUg/y3iPnOAF52HsMfg4lbmw5QmdEvh1374oBnNrYxo+06Kwd6OMUI+L0bNc3/nhpif9AyblK90aGfgrOg==",
   "success": true,
-  "projectFilePath": "D:\\Gebruikers\\rikde\\Documents\\github\\Rix-TradeBot\\Rix-Bot\\Rix-Bot\\Rix-Bot.csproj",
+  "projectFilePath": "C:\\Users\\Rik\\Documents\\Github\\Rix-TradeBot\\Rix-Bot\\Rix-Bot\\Rix-Bot.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\rikde\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
-    "C:\\Users\\rikde\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
-    "C:\\Users\\rikde\\.nuget\\packages\\protobuf-net\\2.4.6\\protobuf-net.2.4.6.nupkg.sha512",
-    "C:\\Users\\rikde\\.nuget\\packages\\steamkit2\\2.3.0\\steamkit2.2.3.0.nupkg.sha512",
-    "C:\\Users\\rikde\\.nuget\\packages\\system.private.servicemodel\\4.5.3\\system.private.servicemodel.4.5.3.nupkg.sha512",
-    "C:\\Users\\rikde\\.nuget\\packages\\system.reflection.dispatchproxy\\4.5.0\\system.reflection.dispatchproxy.4.5.0.nupkg.sha512",
-    "C:\\Users\\rikde\\.nuget\\packages\\system.security.accesscontrol\\4.7.0\\system.security.accesscontrol.4.7.0.nupkg.sha512",
-    "C:\\Users\\rikde\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512",
-    "C:\\Users\\rikde\\.nuget\\packages\\system.servicemodel.primitives\\4.5.3\\system.servicemodel.primitives.4.5.3.nupkg.sha512"
+    "C:\\Users\\Rik\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
+    "C:\\Users\\Rik\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
+    "C:\\Users\\Rik\\.nuget\\packages\\protobuf-net\\2.4.6\\protobuf-net.2.4.6.nupkg.sha512",
+    "C:\\Users\\Rik\\.nuget\\packages\\steamkit2\\2.3.0\\steamkit2.2.3.0.nupkg.sha512",
+    "C:\\Users\\Rik\\.nuget\\packages\\system.private.servicemodel\\4.5.3\\system.private.servicemodel.4.5.3.nupkg.sha512",
+    "C:\\Users\\Rik\\.nuget\\packages\\system.reflection.dispatchproxy\\4.5.0\\system.reflection.dispatchproxy.4.5.0.nupkg.sha512",
+    "C:\\Users\\Rik\\.nuget\\packages\\system.security.accesscontrol\\4.7.0\\system.security.accesscontrol.4.7.0.nupkg.sha512",
+    "C:\\Users\\Rik\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512",
+    "C:\\Users\\Rik\\.nuget\\packages\\system.servicemodel.primitives\\4.5.3\\system.servicemodel.primitives.4.5.3.nupkg.sha512"
   ],
   "logs": []
 }

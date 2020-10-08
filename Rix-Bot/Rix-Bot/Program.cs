@@ -16,8 +16,8 @@ namespace Rix_Bot
             LoginDetailType = LoginType.BuiltinLoginDetails;
 
                 //these login details are used if LoginDetailType = LoginType.BuiltinLoginDetails
-                    Username = "Tempyelectric";     //Username
-                    Password = "6VZQpNGhfQc5dLq";   //Password
+                    Username = "kayob93918";     //Username
+                    Password = "TEMPac123";   //Password
             
             //Setup Listeners
             setup.SetupListeners();

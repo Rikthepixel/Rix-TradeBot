@@ -33,7 +33,7 @@ namespace Rix_Bot
 
         private Friends Friend;
         private UserActivities UserActs;
-        private MessageHandler MsgHandler;
+        private MessageHandling MsgHandler;
         private TradeOffers Trade;
         private Program program;
 
@@ -43,7 +43,7 @@ namespace Rix_Bot
 
             UserActs = new UserActivities(this);
             Friend = new Friends(this);
-            MsgHandler = new MessageHandler(this);
+            MsgHandler = new MessageHandling(this);
             Trade = new TradeOffers(this);
             program = new Program(this);
 
