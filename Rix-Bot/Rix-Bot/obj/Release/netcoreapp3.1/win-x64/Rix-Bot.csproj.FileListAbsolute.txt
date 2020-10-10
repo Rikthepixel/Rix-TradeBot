@@ -236,3 +236,4 @@ D:\Gebruikers\rikde\Documents\github\Rix-TradeBot\Rix-Bot\Rix-Bot\obj\Release\ne
 D:\Gebruikers\rikde\Documents\github\Rix-TradeBot\Rix-Bot\Rix-Bot\obj\Release\netcoreapp3.1\win-x64\Rix-Bot.dll
 D:\Gebruikers\rikde\Documents\github\Rix-TradeBot\Rix-Bot\Rix-Bot\obj\Release\netcoreapp3.1\win-x64\Rix-Bot.pdb
 D:\Gebruikers\rikde\Documents\github\Rix-TradeBot\Rix-Bot\Rix-Bot\obj\Release\netcoreapp3.1\win-x64\Rix-Bot.genruntimeconfig.cache
+D:\Gebruikers\rikde\Documents\github\Rix-TradeBot\Rix-Bot\Rix-Bot\obj\Release\netcoreapp3.1\win-x64\Rix-Bot.csprojAssemblyReference.cache

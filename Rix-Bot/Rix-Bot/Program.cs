@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace Rix_Bot
 {
@@ -21,6 +22,8 @@ namespace Rix_Bot
             
             //Setup Listeners
             setup.SetupListeners();
+
+            Console.ReadLine();
         }
 
 
