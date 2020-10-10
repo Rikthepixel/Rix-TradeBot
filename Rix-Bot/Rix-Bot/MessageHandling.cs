@@ -26,10 +26,15 @@ namespace Rix_Bot
         //Keywords
         void CreateKeywords()
         {
-            KeyTypes[] keyTypes = { Greet, BotNameUse };
-            IEnumerable<bool> inmessage = from type in keyTypes
-                                          where type.InMSG.Any()
-                                          select 
+            KeyTypes[] Types = { Greet, BotNameUse };
+
+            foreach (KeyTypes Type in Types)
+            {
+                if (Type.InMSG)
+                {
+                    
+                }
+            }
             //Greeting
             string[] greetings = { "Hello", "Hi", "Hai", "Hoi", "Howdy", "Hey", "Hoy", "Ahoy", "Hallo" };
             string[] greetingsResponse = { "Hello", "Hey", "Hi"};
@@ -107,7 +112,23 @@ namespace Rix_Bot
             //If the sender greets the bot, it will send a greeting back
             if (Greet.InMSG)
             {
-                Greeting(senderName);
+                if (CAny)
+                {
+                    string Resp = "Hello, ";
+                    OutputMSG = $"{Resp}{OutputMSG}";
+                }
+                else if (BotNameUse.InMSG)
+                {
+                    string Resp = "Hello";
+                    OutputMSG = $"{Resp}{OutputMSG}";
+                }
+                else if (CAny == false)
+                {
+                    string Resp = $"Hello {senderName}";
+                    OutputMSG = $"{Resp}";
+                }
+
+                CAny = true;
             }
 
             //If the botname is used in the sentence
@@ -157,30 +178,5 @@ namespace Rix_Bot
             return ArrContains;
         }
 
-        string Greeting(string SenderName)
-        {
-            string OutputMSG = "";
-            bool ComeAfter;
-            if (BotNameUse.InMSG) ;
-
-            if (CAny)
-            {
-                string Resp = "Hello, ";
-                OutputMSG = $"{Resp}{OutputMSG}";
-            }
-            else if (BotNameUse.InMSG)
-            {
-                string Resp = "Hello";
-                OutputMSG = $"{Resp}{OutputMSG}";
-            }
-            else if (CAny == false)
-            {
-                string Resp = $"Hello {SenderName}";
-                OutputMSG = $"{Resp}";
-            }
-
-            CAny = true;
-            return OutputMSG;
-        }
     }
 }

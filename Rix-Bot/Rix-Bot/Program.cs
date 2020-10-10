@@ -13,7 +13,7 @@ namespace Rix_Bot
             // Either manually login each time you start the application (LoginType.ManualLoginDetails) 
             // Automatically login, but manually login the first time you start the application (LoginType.OneTimeManualDetails)
             // or Automatically login with the Username and password set in the code below (LoginType.BuiltinLoginDetails)
-            LoginDetailType = LoginType.BuiltinLoginDetails;
+            LoginDetailType = LoginType.ManualLoginDetails;
 
                 //these login details are used if LoginDetailType = LoginType.BuiltinLoginDetails
                     Username = "kayob93918";     //Username

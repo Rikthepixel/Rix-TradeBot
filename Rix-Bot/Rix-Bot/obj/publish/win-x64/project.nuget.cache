@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "dgSpecHash": "wZlMYMiiF64FHhhLdmJtW7Y+MWAIUicB7ypusoLmBjliE4NozfGXsyg+RLur/GuC8v09K+ByXkjkpBuB/DX4uQ==",
+  "success": true,
+  "projectFilePath": "D:\\Gebruikers\\rikde\\Documents\\github\\Rix-TradeBot\\Rix-Bot\\Rix-Bot\\Rix-Bot.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\rikde\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
+    "C:\\Users\\rikde\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
+    "C:\\Users\\rikde\\.nuget\\packages\\protobuf-net\\2.4.6\\protobuf-net.2.4.6.nupkg.sha512",
+    "C:\\Users\\rikde\\.nuget\\packages\\steamkit2\\2.3.0\\steamkit2.2.3.0.nupkg.sha512",
+    "C:\\Users\\rikde\\.nuget\\packages\\system.private.servicemodel\\4.5.3\\system.private.servicemodel.4.5.3.nupkg.sha512",
+    "C:\\Users\\rikde\\.nuget\\packages\\system.reflection.dispatchproxy\\4.5.0\\system.reflection.dispatchproxy.4.5.0.nupkg.sha512",
+    "C:\\Users\\rikde\\.nuget\\packages\\system.security.accesscontrol\\4.7.0\\system.security.accesscontrol.4.7.0.nupkg.sha512",
+    "C:\\Users\\rikde\\.nuget\\packages\\system.security.principal.windows\\4.7.0\\system.security.principal.windows.4.7.0.nupkg.sha512",
+    "C:\\Users\\rikde\\.nuget\\packages\\system.servicemodel.primitives\\4.5.3\\system.servicemodel.primitives.4.5.3.nupkg.sha512",
+    "C:\\Users\\rikde\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\3.1.7\\microsoft.netcore.app.runtime.win-x64.3.1.7.nupkg.sha512",
+    "C:\\Users\\rikde\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\3.1.7\\microsoft.windowsdesktop.app.runtime.win-x64.3.1.7.nupkg.sha512",
+    "C:\\Users\\rikde\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\3.1.7\\microsoft.aspnetcore.app.runtime.win-x64.3.1.7.nupkg.sha512"
+  ],
+  "logs": []
+}
