@@ -19,7 +19,12 @@ namespace Rix_Bot
                 //these login details are used if LoginDetailType = LoginType.BuiltinLoginDetails
                     Username = "kayob93918";     //Username
                     Password = "TEMPac123";   //Password
-            
+
+            // Authentication Type:
+            // Either Manually fill in the Authentication code each time you start the application (AuthType.ManualAuthcode)
+            // or Automatically enter the Authentication code (AuthType.AutomaticAuthcode) W.I.P.
+            AuthenticationType = AuthType.ManualAuthcode;
+
             //Setup Listeners
             setup.SetupListeners();
 
@@ -37,12 +42,19 @@ namespace Rix_Bot
             this.setup = setup;
         }
 
+        public static LoginType LoginDetailType;
         public enum LoginType
         {
             ManualLoginDetails,
             OneTimeManualDetails,
             BuiltinLoginDetails
         }
-        public static LoginType LoginDetailType;
+
+        public static AuthType AuthenticationType;
+        public enum AuthType
+        {
+            ManualAuthcode,
+            AutomaticAuthcode
+        }
     }
 }

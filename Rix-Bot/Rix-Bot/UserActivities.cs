@@ -17,6 +17,8 @@ namespace Rix_Bot
         }
         string UserName;
         string PassWord;
+        string AuthCode;
+
         //
         // Connecting to steam
         //
@@ -72,6 +74,7 @@ namespace Rix_Bot
             {
                 UserName = Program.Username;
                 PassWord = Program.Password;
+               
             }
         }
         private void OneTimeManualLogin(Program.LoginType loginType, string LoginDetailsPath)

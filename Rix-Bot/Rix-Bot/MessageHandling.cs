@@ -137,7 +137,7 @@ namespace Rix_Bot
                 string Resp;
                 if (CAny == false)
                 {
-                    Resp = "2";
+                    Resp = $"There {setup.steamFriends.GetFriendPersonaName(senderID)}";
                     OutputMSG = $"{Resp}";
                 } else if(Greet.InMSG)
                 {

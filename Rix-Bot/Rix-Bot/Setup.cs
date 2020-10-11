@@ -1,4 +1,5 @@
 ﻿using SteamKit2;
+using SteamKit2.Internal;
 using System;
 using System.IO;
 using System.Net.Mail;
@@ -30,6 +31,8 @@ namespace Rix_Bot
         public SteamFriends steamFriends;
         public SteamClient Client;
         public SteamUser steamUser;
+        public SteamTrading steamTrading;
+        
 
         private Friends Friend;
         private UserActivities UserActs;
@@ -40,7 +43,7 @@ namespace Rix_Bot
         public Setup()
         {
             StartupText();
-
+            
             UserActs = new UserActivities(this);
             Friend = new Friends(this);
             MsgHandler = new MessageHandling(this);
@@ -49,17 +52,21 @@ namespace Rix_Bot
 
             this.isRunning = false;
         }
-
+        
         public void SetupListeners()
         {
+            
             UserActs.LoginDetails(Program.LoginDetailType);
 
             Client = new SteamClient();
             CallbackManager callbackManager = new CallbackManager(Client);
             steamUser = Client.GetHandler<SteamUser>();
             steamFriends = Client.GetHandler<SteamFriends>();
-
+            steamTrading = Client.GetHandler<SteamTrading>();
+           
+            //
             //Callbacks
+            //
 
             //Steam user activities
             callbackManager.Subscribe<SteamClient.ConnectedCallback>(UserActs.OnConnected);

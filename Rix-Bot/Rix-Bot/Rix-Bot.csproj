@@ -14,6 +14,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="MessageHandling.cs~RF9cc59459.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="SteamKit2" Version="2.3.0" />
   </ItemGroup>
 
