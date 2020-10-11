@@ -20,8 +20,9 @@ namespace Rix_Bot
         string PassWord;
         string TFAcode;
 
+
         //
-        // Connecting to steam
+        // Login
         //
 
         public void OnConnected(SteamClient.ConnectedCallback callback)
@@ -30,16 +31,13 @@ namespace Rix_Bot
 
             setup.steamUser.LogOn(new SteamUser.LogOnDetails
             {
+                //Setup the LoginDetails
                 Username = UserName,
                 Password = PassWord,
                 TwoFactorCode = TFAcode
             });
         }
 
-
-        //
-        // Login
-        //
 
         //On Logged on function
         public void OnLoggedOn(SteamUser.LoggedOnCallback callback)
@@ -61,9 +59,15 @@ namespace Rix_Bot
 
             if (callback.Result == EResult.OK)
             {
+                // Blank out the Login variables for security
+                UserName = "";
+                PassWord = "";
+                TFAcode = "";
+
                 Console.WriteLine("Logged on succesfully.");
             }
         }
+
         public void LoginDetails(Program.LoginType loginType, Program.AuthType AuthentictionType)
         {
             string AppPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
@@ -77,36 +81,21 @@ namespace Rix_Bot
 
         }
 
+        // Login types
         private void BuiltinLogin(Program.LoginType loginType, Program.AuthType AuthentictionType)
         {
-            bool Builtin = false;
             if (loginType == Program.LoginType.BuiltinLoginDetails)
-            {
-                Builtin = true;
-            }
-
-            if (Builtin)
             {
                 UserName = Program.Username;
                 PassWord = Program.Password;
-            }
 
-            if (AuthentictionType == Program.AuthType.ManualAuthcode && Builtin)
-            {
-                Console.WriteLine(">> Manual Authentication <<");
-                Console.WriteLine("Please enter Steam Guard code");
-                TFAcode = Console.ReadLine().ToUpper();
+                ManualTFA(AuthentictionType);
             }
         }
         private void OneTimeManualLogin(Program.LoginType loginType, string LoginDetailsPath, Program.AuthType AuthentictionType)
         {
-            bool OneTime = false;
-            if (loginType == Program.LoginType.OneTimeManualDetails)
-            {
-                OneTime = true;
-            }
 
-            if (OneTime)
+            if (loginType == Program.LoginType.OneTimeManualDetails)
             {
                 String[] details;
 
@@ -126,40 +115,45 @@ namespace Rix_Bot
                 }
                 details = File.ReadAllLines(LoginDetailsPath);
                 File.Encrypt(LoginDetailsPath);
-            }
 
-            if (AuthentictionType == Program.AuthType.ManualAuthcode && OneTime)
-            {
-                Console.WriteLine("Please enter Steam Guard code");
-                TFAcode = Console.ReadLine().ToUpper();
+                ManualTFA(AuthentictionType);
             }
         }
         private void ManualLogin(Program.LoginType loginType, Program.AuthType AuthentictionType)
         {
-            bool Manual = false;
+
             if (loginType == Program.LoginType.ManualLoginDetails)
-            {
-                Manual = true;
-            }
-            if (Manual)
             {
                 Console.WriteLine(">> Manual Login <<");
                 Console.WriteLine("Please enter Username");
                 UserName = Console.ReadLine();
                 Console.WriteLine("Please enter Password");
                 PassWord = Console.ReadLine();
+
+                ManualTFA(AuthentictionType);
             }
 
-            if (AuthentictionType == Program.AuthType.ManualAuthcode && Manual)
+
+        }
+
+        // Authentication Types
+        private void ManualTFA(Program.AuthType AuthentictionType)
+        {
+            if (AuthentictionType == Program.AuthType.ManualAuthcode)
             {
+                Console.WriteLine(">> Manual Authentication <<");
                 Console.WriteLine("Please enter Steam Guard code");
                 TFAcode = Console.ReadLine().ToUpper();
             }
         }
 
+        // 
+        // END Login
+        //
+
 
         //
-        // Disconnecting from steam
+        // Disconnecting
         //
 
         //on Disconnect function
@@ -188,5 +182,9 @@ namespace Rix_Bot
                 setup.steamFriends.SetPersonaState(EPersonaState.Online);
             }
         }
+
+        //
+        // END Disconnect
+        //
     }
 }
