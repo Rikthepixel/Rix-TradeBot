@@ -55,8 +55,6 @@ namespace Rix_Bot
         
         public void SetupListeners()
         {
-            
-            UserActs.LoginDetails(Program.LoginDetailType, Program.AuthenticationType);
 
             Client = new SteamClient();
             CallbackManager callbackManager = new CallbackManager(Client);
@@ -75,6 +73,8 @@ namespace Rix_Bot
             callbackManager.Subscribe<SteamUser.LoggedOffCallback>(UserActs.OnLoggedOff);
             callbackManager.Subscribe<SteamUser.AccountInfoCallback>(UserActs.OnAccountInfo);
 
+            callbackManager.Subscribe<SteamUser.UpdateMachineAuthCallback>(UserActs.MachineAuth);
+            callbackManager.Subscribe<SteamUser.LoginKeyCallback>(UserActs.OnLoginKey);
 
             //Steam friend activities
             callbackManager.Subscribe<SteamFriends.FriendsListCallback>(Friend.OnFriendsList);
