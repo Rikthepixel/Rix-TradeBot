@@ -20,6 +20,7 @@ namespace Rix_Bot
     {
         KeyTypes Greet;
         KeyTypes BotNameUse;
+
         bool CAny = false;
 
 
