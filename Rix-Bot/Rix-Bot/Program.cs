@@ -27,7 +27,7 @@ namespace Rix_Bot
             // Authentication Type:
             // Either Manually fill in the Authentication code each time you start the application (AuthType.ManualAuthcode)
             // or Automatically Authenticate by only filling in the Authentication code one time (AuthType.AutomaticAuthcode)
-            AuthenticationType = AuthType.AutomaticAuthcode;
+            AuthenticationType = AuthType.ManualAuthcode;
             //Note If you use AutomaticAuthCode it will make a file called LoginKey.txt
 
             //
