@@ -485,19 +485,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Rik\\.nuget\\packages\\": {}
+    "C:\\Users\\rikde\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Rik\\Documents\\Github\\Rix-TradeBot\\Rix-Bot\\Rix-Bot\\Rix-Bot.csproj",
+      "projectUniqueName": "D:\\Gebruikers\\rikde\\Documents\\github\\Rix-TradeBot\\Rix-Bot\\Rix-Bot\\Rix-Bot.csproj",
       "projectName": "Rix-Bot",
-      "projectPath": "C:\\Users\\Rik\\Documents\\Github\\Rix-TradeBot\\Rix-Bot\\Rix-Bot\\Rix-Bot.csproj",
-      "packagesPath": "C:\\Users\\Rik\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Rik\\Documents\\Github\\Rix-TradeBot\\Rix-Bot\\Rix-Bot\\obj\\",
+      "projectPath": "D:\\Gebruikers\\rikde\\Documents\\github\\Rix-TradeBot\\Rix-Bot\\Rix-Bot\\Rix-Bot.csproj",
+      "packagesPath": "C:\\Users\\rikde\\.nuget\\packages\\",
+      "outputPath": "D:\\Gebruikers\\rikde\\Documents\\github\\Rix-TradeBot\\Rix-Bot\\Rix-Bot\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Rik\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\rikde\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
