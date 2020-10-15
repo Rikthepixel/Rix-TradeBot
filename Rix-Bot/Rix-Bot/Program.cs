@@ -21,13 +21,13 @@ namespace Rix_Bot
             LoginDetailType = LoginType.BuiltinLoginDetails;
 
                 //these login details are used if LoginDetailType = LoginType.BuiltinLoginDetails
-                    Username = "boxingintf2";     //Username
-                    Password = "Ritigoxowok1.";   //Password
+                    Username = "kayob93918";     //Username
+                    Password = "TEMPac123";   //Password
 
             // Authentication Type:
             // Either Manually fill in the Authentication code each time you start the application (AuthType.ManualAuthcode)
             // or Automatically Authenticate by only filling in the Authentication code one time (AuthType.AutomaticAuthcode)
-            AuthenticationType = AuthType.ManualAuthcode;
+            AuthenticationType = AuthType.Disabled;
             //Note If you use AutomaticAuthCode it will make a file called LoginKey.txt
 
             //
@@ -40,6 +40,12 @@ namespace Rix_Bot
             //ReconnectionAttempts determines the ammount of tries the bot has to reconnect
                 ReconnectAfterDisconnect = true;
                 ReconnectionAttempts = 3;
+
+
+            //
+            // Personallity
+            //
+
 
             //Setup Listeners
             setup.SetupListeners();

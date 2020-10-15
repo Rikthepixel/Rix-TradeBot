@@ -55,7 +55,6 @@ namespace Rix_Bot
             {
                 LoginKey = reader.ReadLine();
             }
-            Console.WriteLine(File.Exists("sentry.bin"));
 
             if (File.Exists("sentry.bin"))
             {
@@ -80,7 +79,7 @@ namespace Rix_Bot
             {
                 Console.WriteLine("Connected succesfully");
             }
-
+            Console.WriteLine(TFAConnect);
             //Call the Login Details Function to gather the correct login Details
             LoginDetails(Program.LoginDetailType, Program.AuthenticationType);
 
@@ -141,8 +140,6 @@ namespace Rix_Bot
             bool isSteamGuard = callback.Result == EResult.AccountLogonDenied;
             bool is2FA = callback.Result == EResult.AccountLoginDeniedNeedTwoFactor;
 
-            Console.WriteLine(callback.GetHashCode());
-            Console.WriteLine(callback.ExtendedResult);
             // steamguard protection
             if (isSteamGuard || is2FA)
             {
@@ -466,14 +463,14 @@ namespace Rix_Bot
                 return;
             }
             //If the Reconnection counter exceeds the Allowed reconnection attempts then give up
-            if (ReconnectAttemptCount >= (Program.ReconnectionAttempts + 1))
+            if (ReconnectAttemptCount >= Program.ReconnectionAttempts)
             {
                 Console.WriteLine("Failed to Reconnect to Steam");
                 setup.isRunning = false;
                 return;
             }
 
-            if (ReconnectAttemptCount != (Program.ReconnectionAttempts + 1))
+            if (ReconnectAttemptCount <= Program.ReconnectionAttempts)
             {
                 string Counter = "Hello";
                 switch (ReconnectAttemptCount)

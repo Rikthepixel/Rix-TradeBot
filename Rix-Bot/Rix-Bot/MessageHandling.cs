@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Rix_Bot
 {
-
+    
     public class KeyTypes
     {
         public string[] KeyWords;
@@ -24,25 +24,33 @@ namespace Rix_Bot
         }
     }
 
+    public class help
+    {
+        public KeyTypes AskingFor;
+        public KeyTypes BotOfferingHelp;
+    }
+
     class MessageHandling
     {
-        
+        bool CAny = false;
+        bool MessageHandeled = false;
+
+        help Help = new help();
         KeyTypes Greet;
         KeyTypes BotNameUse;
-
-
-
-        bool CAny = false;
-
 
         //Keywords
         void CreateKeywords()
         {
             Greet = new KeyTypes();
             BotNameUse = new KeyTypes();
+            Help.AskingFor = new KeyTypes();
+            Help.BotOfferingHelp = new KeyTypes();
+
+
             //Greeting
-            string[] greetings = { "Hello", "Hi", "Hai", "Hoi", "Howdy", "Hey", "Hoy", "Ahoy", "Hallo" };
-            string[] greetingsResponse = { "Hello", "Hey", "Hi"};
+            string[] greetings = { "Hello", "Hi", "Hai", "Hoi", "Howdy", "Hey", "Hoy", "Ahoy", "Hallo", "Excuse me" };
+            string[] greetingsResponse = { "Hello", "Hey", "Hi, Greetings"};
             Greet.KeyWords = greetings;
             Greet.Response = greetingsResponse;
 
@@ -51,6 +59,21 @@ namespace Rix_Bot
             string[] BotnameResponse = { $"That is me. What is up?" };
             BotNameUse.KeyWords = Botname;
             BotNameUse.Response = BotnameResponse;
+
+            //
+            // Help
+            // 
+
+            //Asking for help
+            string[] AFH = { "Can you help me?", "Could you help me?", "I Need help", "Help me", "IM IN NEED OF SOME MEDICAL ATTENTION"};
+            string[] AFHResponse = { "" };
+
+            //How Do I Work?
+            string[] HDIW = { "How to chat", "How to chat with you" };
+
+            //Bot offering his help
+            string[] BOHHResponse = { "How can I Help you?", "How can I be of service?"};
+            Help.BotOfferingHelp.Response = BOHHResponse;
         }
 
         private Setup setup;
@@ -70,29 +93,33 @@ namespace Rix_Bot
             string AnswerMessage = MessageHandler(Message, senderID); 
             bool MSGCond = false;
 
-            //Handles the Message send condition, if it is false, then no messages will be sent
-            if (Message.Length != 0) //prevents messages from being send when the Sender is still typing
+            // This if statement is essential, as otherwise the bot will send a message if the user is still typing
+            if (Message.Length != 0)
             {
+
                 if (CAny)
                 {
                     MSGCond = true;
                 }
+                //If the Message we generate is not of a valid length
                 if (AnswerMessage.Length == 0)
                 {
                     MSGCond = false;
                 }
             }
-            Console.WriteLine(AnswerMessage);
             if (MSGCond)
             {
                 string Q = "\"";
 
                 //Report the message and the response into the Console
                 Console.WriteLine(Message);
-                Console.WriteLine($"Sent {Q}{AnswerMessage}{Q} to {senderName}");
+                Console.WriteLine($"Sent {Q}{AnswerMessage}{Q} to => {senderName}");
+
+                //Sends the Message calculated in the Message Handler to the Sender
                 setup.steamFriends.SendChatMessage(senderID, EChatEntryType.ChatMsg, AnswerMessage);
             }
 
+            // Reset essential variables
             MSGCond = false;
             CAny = false;
         }
@@ -101,22 +128,28 @@ namespace Rix_Bot
         //MessageHandler: This generates a response based on the message that was sent by the Sender
         private string MessageHandler(string Message, SteamID senderID)
         {
+            int Keywordcount = 0;
+
             string senderName = setup.steamFriends.GetFriendPersonaName(senderID);
-            string OutputMSG = "IDK WHAT JUST HAPPENED";
+            string OutputMSG = "";
+
             Message = Message.ToLower();
 
-            //Setup MSG Contains
+            //List of Keywords it has to listen for
             List<KeyTypes> TypesList = new List<KeyTypes>()
             {
                 Greet,
                 BotNameUse
             };
 
-            int Keywordcount = 0;
-
+            //Check if the keywords are inside of the message
             for (int i = 0; i < TypesList.Count; i++)
             {
                 TypesList[i].InMSG = ArrContains(Message, TypesList[i].KeyWords);
+                if (TypesList[i].InMSG)
+                {
+                    Keywordcount++;
+                }
             }
 
 
@@ -124,23 +157,8 @@ namespace Rix_Bot
             {
                 CAny = true;
             }
-            bool CTest = Contains(Message, "Test");
 
-            Console.WriteLine(Keywordcount);
-            Console.WriteLine(TypesList[0].InMSG);
-            if (Keywordcount == 1)
-            {
-
-
-            }
-            //Reactions to Keywords
-            if (CTest)
-            {
-                CAny = true;
-
-                string Resp = "I am still a work in progress, but since 8-10-2020 I do have responces!";
-                OutputMSG = $"{OutputMSG}{Resp}";
-            }
+            //Reactions to keywords
             
             //If the sender greets the bot, it will send a greeting back
             if (Greet.InMSG)
@@ -148,14 +166,12 @@ namespace Rix_Bot
                 
                 if (Keywordcount > 1)
                 {
-                    Console.WriteLine("yes");
                     string Resp = $"Hello, ";
                     OutputMSG = $"{Resp}{OutputMSG}";
                 }
                 else if (Keywordcount == 1)
                 {
-                    Console.WriteLine("yes");
-                    string Resp = $"{RandomResponse(Greet)} {senderName},";
+                    string Resp = $"{RandomResponse(Greet)} {senderName}";
                     OutputMSG = $"{Resp}";
                 }
             }
@@ -165,27 +181,32 @@ namespace Rix_Bot
             {
                 string Resp;
 
+                //if only the BotName is used in the sentence
                 if (Keywordcount == 1)
                 {
-                    Console.WriteLine("yes");
-                    Resp = $"{RandomResponse(Greet)} {senderName}";
-                    OutputMSG = $"{Resp}";
-                }
-                else if (Keywordcount >= 2)
-                {
-                    Console.WriteLine("yes");
-                    Resp = $"There {setup.steamFriends.GetFriendPersonaName(senderID)}";
+                    Resp = $"{RandomResponse(Greet)} {senderName}, {RandomResponse(Help.BotOfferingHelp)}";
                     OutputMSG = $"{Resp}";
                 }
 
-                if (Greet.InMSG)
+                if (Keywordcount >= 2)
                 {
-                    Console.WriteLine("yes");
-                    Resp = $" there {senderName}";
-                    OutputMSG = $"{OutputMSG}{Resp}";
+                    //if the sender doesn't greet the bot
+                    if (!Greet.InMSG)
+                    {
+                        Resp = $"Hello there {setup.steamFriends.GetFriendPersonaName(senderID)}, {RandomResponse(Help.BotOfferingHelp)}";
+                        OutputMSG = $"{Resp}";
+                    }
+                    //if the Sender greets the bot
+                    if (Greet.InMSG)
+                    {
+                        Resp = $" there {senderName}";
+                        OutputMSG = $"{OutputMSG}{Resp}";
+                    }
                 }
+
+
             }
-
+            MessageHandeled = true;
             return OutputMSG;
         }
 
@@ -217,13 +238,17 @@ namespace Rix_Bot
         //Chooses one of the Struct responses
         string RandomResponse(KeyTypes Keyword)
         {
-            Random random = new Random();
-            string Output = "";
-            int index = random.Next(0, Keyword.KeyWords.Length);
+            int index = 0;
 
+            string Output = "";
+            Random random = new Random();
+            index = random.Next(0, Keyword.Response.Length);
+            Console.WriteLine(index);
             Output = Keyword.Response[index];
 
             return Output;
         }
+
+
     }
 }

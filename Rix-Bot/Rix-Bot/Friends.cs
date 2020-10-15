@@ -1,4 +1,5 @@
 ﻿using SteamKit2;
+using SteamKit2.GC.TF2.Internal;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -33,8 +34,17 @@ namespace Rix_Bot
         }
         public void OnFriendAdded(SteamFriends.FriendAddedCallback callback)
         {
-            Console.WriteLine($"{callback.PersonaName}, {callback.SteamID} is now our friend.");
-            setup.steamFriends.SendChatMessage(callback.SteamID, EChatEntryType.ChatMsg, $"Hello, I am a bot, {callback.PersonaName}. As of yet i have no functionality! :'(");
+            Console.WriteLine($"{callback.PersonaName} has become my friend!");
+
+            //Create a response list, the randomness generator can pick one of these responses
+            string[] Meet = { "Hello", "Greetings", "Good day" };
+
+            //get a random index number for message randomness, keep messages fresh!
+            Random random = new Random();
+            int index = random.Next(0, Meet.Length);
+
+            //Send a message
+            setup.steamFriends.SendChatMessage(callback.SteamID, EChatEntryType.ChatMsg, $"{Meet[index]} {callback.PersonaName}, My name is {setup.steamFriends.GetPersonaName()}, I am a prototype bot. Right now, I can only be used to chat with.");
         }
 
         public void OnPersonaState(SteamFriends.PersonaStateCallback callback)
