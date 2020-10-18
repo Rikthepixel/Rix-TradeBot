@@ -8,7 +8,7 @@ namespace Rix_Bot
 {
     class Friends
     {
-        private Setup setup;
+        private readonly Setup setup;
         public Friends(Setup setup)
         {
             this.setup = setup;

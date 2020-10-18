@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Rix_Bot
 {
-    public class Program
+    public class Configuration
     {
         //Here you can adjust your settings
         static void Main(string[] args)
@@ -65,9 +65,9 @@ namespace Rix_Bot
         //Disconnection
         public static bool ReconnectAfterDisconnect = true;
         public static int ReconnectionAttempts;
-        private Setup setup;
+        private readonly Setup setup;
 
-        public Program(Setup setup)
+        public Configuration(Setup setup)
         {
             this.setup = setup;
         }

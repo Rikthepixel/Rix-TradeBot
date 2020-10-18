@@ -46,7 +46,7 @@ namespace Rix_Bot
             bool ShouldRememberPassword = false;
 
             //Automatically enable the ShouldRememberPassword because if you dont do that the program will crash
-            if (Program.AuthenticationType == Program.AuthType.AutomaticAuthcode)
+            if (Configuration.AuthenticationType == Configuration.AuthType.AutomaticAuthcode)
             {
                 ShouldRememberPassword = true;
             }
@@ -63,7 +63,7 @@ namespace Rix_Bot
                 sentryHash = CryptoHelper.SHAHash(sentryFile);
             }
 
-            if (Program.AuthenticationType == Program.AuthType.AutomaticAuthcode)
+            if (Configuration.AuthenticationType == Configuration.AuthType.AutomaticAuthcode)
             {
                 if (FirstLogon)
                 {
@@ -75,13 +75,13 @@ namespace Rix_Bot
                 }
             }
 
-            if (Program.AuthenticationType != Program.AuthType.AutomaticAuthcode)
+            if (Configuration.AuthenticationType != Configuration.AuthType.AutomaticAuthcode)
             {
                 Console.WriteLine("Connected succesfully");
             }
             Console.WriteLine(TFAConnect);
             //Call the Login Details Function to gather the correct login Details
-            LoginDetails(Program.LoginDetailType, Program.AuthenticationType);
+            LoginDetails(Configuration.LoginDetailType, Configuration.AuthenticationType);
 
             if (ShouldRememberPassword == true)
             {
@@ -145,9 +145,9 @@ namespace Rix_Bot
             {
                 if (is2FA)
                 {
-                    if (Program.AuthenticationType == Program.AuthType.AutomaticAuthcode)
+                    if (Configuration.AuthenticationType == Configuration.AuthType.AutomaticAuthcode)
                     {
-                        AutomaticTFA(Program.AuthenticationType);
+                        AutomaticTFA(Configuration.AuthenticationType);
                     }
                     else
                     {
@@ -265,7 +265,7 @@ namespace Rix_Bot
         //
         // Login Details
         //
-        public void LoginDetails(Program.LoginType loginType, Program.AuthType AuthentictionType)
+        public void LoginDetails(Configuration.LoginType loginType, Configuration.AuthType AuthentictionType)
         {
             string LoginDetailsPath = Path.Combine(AppPath, "Login Details.txt");
 
@@ -278,20 +278,20 @@ namespace Rix_Bot
         }
 
         // Login types
-        private void BuiltinLogin(Program.LoginType loginType, Program.AuthType AuthentictionType)
+        private void BuiltinLogin(Configuration.LoginType loginType, Configuration.AuthType AuthentictionType)
         {
-            if (loginType == Program.LoginType.BuiltinLoginDetails)
+            if (loginType == Configuration.LoginType.BuiltinLoginDetails)
             {
-                UserName = Program.Username;
-                PassWord = Program.Password;
+                UserName = Configuration.Username;
+                PassWord = Configuration.Password;
 
                 ManualTFA(AuthentictionType);
             }
         }
-        private void OneTimeManualLogin(Program.LoginType loginType, string LoginDetailsPath, Program.AuthType AuthentictionType)
+        private void OneTimeManualLogin(Configuration.LoginType loginType, string LoginDetailsPath, Configuration.AuthType AuthentictionType)
         {
 
-            if (loginType == Program.LoginType.OneTimeManualDetails)
+            if (loginType == Configuration.LoginType.OneTimeManualDetails)
             {
                 String[] details;
 
@@ -316,10 +316,10 @@ namespace Rix_Bot
 
             }
         }
-        private void ManualLogin(Program.LoginType loginType, Program.AuthType AuthentictionType)
+        private void ManualLogin(Configuration.LoginType loginType, Configuration.AuthType AuthentictionType)
         {
 
-            if (loginType == Program.LoginType.ManualLoginDetails)
+            if (loginType == Configuration.LoginType.ManualLoginDetails)
             {
                 Console.WriteLine(">> Manual Login <<");
                 Console.WriteLine("Please enter Username");
@@ -335,9 +335,9 @@ namespace Rix_Bot
         }
 
         // Authentication Types
-        private void ManualTFA(Program.AuthType AuthentictionType)
+        private void ManualTFA(Configuration.AuthType AuthentictionType)
         {
-            if (AuthentictionType == Program.AuthType.ManualAuthcode)
+            if (AuthentictionType == Configuration.AuthType.ManualAuthcode)
             {
                 Console.WriteLine(">> Manual Authentication <<");
                 Console.WriteLine("Please enter Steam Guard code");
@@ -345,9 +345,9 @@ namespace Rix_Bot
                 Console.WriteLine("");
             }
         }
-        private void AutomaticTFA(Program.AuthType AuthentictionType)
+        private void AutomaticTFA(Configuration.AuthType AuthentictionType)
         {
-            if (Program.AuthenticationType == Program.AuthType.AutomaticAuthcode)
+            if (Configuration.AuthenticationType == Configuration.AuthType.AutomaticAuthcode)
             {
                 Console.WriteLine(">> Automatic Authentication <<");
                 Console.WriteLine("Please enter Steam Guard code");
@@ -443,10 +443,10 @@ namespace Rix_Bot
                 Console.WriteLine("Bot was Disconnected from Steam");
             }
 
-            if (Program.ReconnectAfterDisconnect == false)
+            if (Configuration.ReconnectAfterDisconnect == false)
             {
                 setup.isRunning = false;
-            } else if (Program.ReconnectAfterDisconnect == true)
+            } else if (Configuration.ReconnectAfterDisconnect == true)
             {
                 ReconnectAttempt = true;
                 Reconnecting();
@@ -463,14 +463,14 @@ namespace Rix_Bot
                 return;
             }
             //If the Reconnection counter exceeds the Allowed reconnection attempts then give up
-            if (ReconnectAttemptCount >= Program.ReconnectionAttempts)
+            if (ReconnectAttemptCount >= Configuration.ReconnectionAttempts)
             {
                 Console.WriteLine("Failed to Reconnect to Steam");
                 setup.isRunning = false;
                 return;
             }
 
-            if (ReconnectAttemptCount <= Program.ReconnectionAttempts)
+            if (ReconnectAttemptCount <= Configuration.ReconnectionAttempts)
             {
                 string Counter = "Hello";
                 switch (ReconnectAttemptCount)
@@ -534,7 +534,7 @@ namespace Rix_Bot
                 } else
                 {
                     Console.WriteLine($"{Counter} Attempt to reconnect in 5 seconds");
-                    Console.WriteLine($"There are: {Program.ReconnectionAttempts - ReconnectAttemptCount} Reconnection attempts remaining");
+                    Console.WriteLine($"There are: {Configuration.ReconnectionAttempts - ReconnectAttemptCount} Reconnection attempts remaining");
                 }
 
                 for (int i = 5; i > 0; i--) //Count down to 0

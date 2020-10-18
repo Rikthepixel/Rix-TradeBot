@@ -1,4 +1,5 @@
-﻿using SteamKit2;
+﻿using Rix_Bot.Messages;
+using SteamKit2;
 using SteamKit2.Internal;
 using System;
 using System.IO;
@@ -32,30 +33,30 @@ namespace Rix_Bot
         public SteamClient Client;
         public SteamUser steamUser;
         public SteamTrading steamTrading;
-        
-
+        private Configuration program;
         private Friends Friend;
         private UserActivities UserActs;
-        private MessageHandling MsgHandler;
         private TradeOffers Trade;
-        private Program program;
-
+        private Message message;
+        private MessageHandling MSGHandling;
         public Setup()
         {
             StartupText();
             
             UserActs = new UserActivities(this);
             Friend = new Friends(this);
-            MsgHandler = new MessageHandling(this);
+
             Trade = new TradeOffers(this);
-            program = new Program(this);
+            program = new Configuration(this);
+
+            MSGHandling = new MessageHandling(this);
+            message = new Message(this);
 
             this.isRunning = false;
         }
         
         public void SetupListeners()
         {
-
             Client = new SteamClient();
             CallbackManager callbackManager = new CallbackManager(Client);
             steamUser = Client.GetHandler<SteamUser>();
@@ -83,7 +84,7 @@ namespace Rix_Bot
             callbackManager.Subscribe<SteamFriends.ProfileInfoCallback>(Friend.OnProfileInfo);
 
             //Steam Messages
-            callbackManager.Subscribe<SteamFriends.FriendMsgCallback>(MsgHandler.OnMessageRecieved);
+            callbackManager.Subscribe<SteamFriends.FriendMsgCallback>(message.OnMessageRecieved);
 
             //Trade
             callbackManager.Subscribe<SteamTrading.TradeProposedCallback>(Trade.OnRecieveTrade);

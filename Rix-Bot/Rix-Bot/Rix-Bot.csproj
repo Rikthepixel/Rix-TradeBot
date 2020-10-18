@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Rix_Bot</RootNamespace>
     <SignAssembly>false</SignAssembly>
-    <StartupObject>Rix_Bot.Program</StartupObject>
+    <StartupObject>Rix_Bot.Configuration</StartupObject>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
