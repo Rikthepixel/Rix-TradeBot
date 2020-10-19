@@ -95,10 +95,6 @@ namespace Rix_Bot
             //Update the Keyword InMSG boolean variable
             Message = UpdateKeywords(Message);
 
-            Console.WriteLine(Greet.KeyWords[2]);
-            Console.WriteLine(Greet.KeyWords[1]);
-            Console.WriteLine(Refer.Sender.KeyWords[3]);
-
             //Reactions to keywords
             //If the sender greets the bot, it will send a greeting back
 
