@@ -49,8 +49,8 @@ namespace Rix_Bot
             Trade = new TradeOffers(this);
             program = new Configuration(this);
 
-            MSGHandling = new MessageHandling(this);
             message = new Message(this);
+            MSGHandling = new MessageHandling(this);
 
             this.isRunning = false;
         }

@@ -7,24 +7,20 @@ namespace Rix_Bot.Messages
 {
     class Message
     {
-
+        private readonly MessageHandling MH;
         private readonly Setup setup;
+
         public Message(Setup setup)
         {
             this.setup = setup;
+            MH = new MessageHandling(setup);
         }
-        private MessageHandling MH;
-        private MessageFunctions MF;
-        public Message()
-        {
-            MH = new MessageHandling(MF);
-            MF = new MessageFunctions(MH);
-        }
+
+
+
         public void OnMessageRecieved(SteamFriends.FriendMsgCallback callback) //OnMessageRecieved fires when a message is sent and when the user is typing
         {
             
-            MH.SetupKeywords();
-
             SteamID senderID = callback.Sender; //Gets the Sender His/Her SteamID
             string Message = callback.Message;  //Gets the message sent by the sender
             string senderName = setup.steamFriends.GetFriendPersonaName(senderID);
@@ -35,13 +31,15 @@ namespace Rix_Bot.Messages
             if (Message.Length != 0)
             {
 
-                if (MH.CAny)
+                if (MessageHandling.CAny)
                 {
                     MSGCond = true;
                 }
                 //If the Message we generate is not of a valid length
-                if (AnswerMessage.Length == 0)
+                if (AnswerMessage == null)
                 {
+                    MSGCond = false;
+                } else if (AnswerMessage.Length == 0) {
                     MSGCond = false;
                 }
             }
@@ -59,7 +57,8 @@ namespace Rix_Bot.Messages
 
             // Reset essential variables
             MSGCond = false;
-            MH.CAny = false;
+            MessageHandling.CAny = false;
+            MessageHandling.Keywordcount = 0;
         }
 
     }

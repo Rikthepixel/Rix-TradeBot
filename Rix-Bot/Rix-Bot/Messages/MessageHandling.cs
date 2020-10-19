@@ -5,6 +5,7 @@ using SteamKit2.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.ServiceModel.Channels;
 using System.Text;
 
@@ -39,17 +40,12 @@ namespace Rix_Bot
 
     class MessageHandling
     {
-        private readonly MessageFunctions MF;
-
-        public MessageHandling(MessageFunctions mF)
-        {
-            MF = mF;
-        }
         private readonly Setup setup;
         public MessageHandling(Setup setup)
         {
             this.setup = setup;
         }
+        MessageFunctions MF = new MessageFunctions();
 
         //Keywords
         private KeyTypes Greet;
@@ -60,8 +56,8 @@ namespace Rix_Bot
 
 
         //Variables
-        public int Keywordcount;
-        public bool CAny = false;
+        public static int Keywordcount;
+        public static bool CAny = false;
 
         //Bot
         string BotName;
@@ -71,7 +67,55 @@ namespace Rix_Bot
         string senderName = null;
         SteamID senderID = null;
         string OutputMSG = null;
+        string[] Salt = { null, null, null };
 
+
+
+        //MessageHandler: This generates a response based on the message that was sent by the Sender
+        public string MessageHandler(string MSG, SteamID SID)
+        {
+            for (int i = 0; i < Salt.Length; i++)
+            {
+                Salt[i] = MF.GenerateSalt();
+            }
+            if (BotName != setup.steamFriends.GetPersonaName())
+            {
+                BotName = setup.steamFriends.GetPersonaName();
+            }
+
+            Keywordcount = 0;
+            OutputMSG = null;
+
+            //Sets and gets the sender his/her's identity
+            senderID = SID;
+            senderName = setup.steamFriends.GetFriendPersonaName(senderID);
+
+            Message = MSG.ToLower();
+
+            //Update the Keyword InMSG boolean variable
+            Message = UpdateKeywords(Message);
+
+            Console.WriteLine(Greet.KeyWords[2]);
+            Console.WriteLine(Greet.KeyWords[1]);
+            Console.WriteLine(Refer.Sender.KeyWords[3]);
+
+            //Reactions to keywords
+            //If the sender greets the bot, it will send a greeting back
+
+            if (Greet.InMSG)
+            {
+                Greetings();
+            }
+
+            if (Refer.Bot.InMSG)
+            {
+                Reference();
+            }
+
+            return OutputMSG;
+        }
+
+        #region Usefull functions
         //Keywords
         public void SetupKeywords()
         {
@@ -91,7 +135,7 @@ namespace Rix_Bot
 
             //Greeting
             string[] greetings = { "Hello", "Hi", "Hai", "Hoi", "Howdy", "Hey", "Hoy", "Ahoy", "Hallo", "Excuse me" };
-            string[] greetingsResponse = { "Hello", "Hey", "Hi", "Greetings"};
+            string[] greetingsResponse = { "Hello", "Hey", "Hi", "Greetings" };
             Greet.KeyWords = greetings;
             Greet.Response = greetingsResponse;
 
@@ -101,14 +145,14 @@ namespace Rix_Bot
             // 
 
             //Asking for help
-            string[] AFH = { "Can you help me?", "Could you help me?", "I Need help", "Help me", "IM IN NEED OF SOME MEDICAL ATTENTION"};
+            string[] AFH = { "Can you help me?", "Could you help me?", "I Need help", "Help me", "IM IN NEED OF SOME MEDICAL ATTENTION" };
             string[] AFHResponse = { "" };
 
             //How Do I Work?
             string[] HDIW = { "How to chat", "How to chat with you" };
 
             //Bot offering his help
-            string[] BOHHResponse = { "How can I help you?", "How can I be of service?"};
+            string[] BOHHResponse = { "How can I help you?", "How can I be of service?" };
             Help.BotOfferingHelp.Response = BOHHResponse;
 
             //
@@ -116,64 +160,32 @@ namespace Rix_Bot
             //
 
             //Sender
-            string[] sender = { "Me", "My", "Mine", "I" };
+            string[] sender = { "Me", "My", "Mine", $"I" };
             Refer.Sender.KeyWords = sender;
 
             //Bot
-            string[] bot = { $"{setup.steamFriends.GetPersonaName()}", "You", "Your", "Yours" };
+            string[] bot = { $"{BotName}", "You", "Your", "Yours" };
             string[] BotNameRandomAdd = { "", "there ", "", "" };
             Refer.Bot.KeyWords = bot;
             Refer.Bot.RandomAddition = BotNameRandomAdd;
         }
 
-
-        //MessageHandler: This generates a response based on the message that was sent by the Sender
-        public string MessageHandler(string MSG, SteamID SID)
-        {
-            if (BotName != setup.steamFriends.GetPersonaName())
-            {
-                BotName = setup.steamFriends.GetPersonaName();
-            }
-
-            Keywordcount = 0;
-            OutputMSG = null;
-
-            //Sets and gets the sender his/her's identity
-            senderID = SID;
-            senderName = setup.steamFriends.GetFriendPersonaName(senderID);
-
-            Message = MSG.ToLower();
-
-            //Update the Keyword InMSG boolean variable
-            UpdateKeywords(Message);
-
-
-
-            //Reactions to keywords
-            //If the sender greets the bot, it will send a greeting back
-
-            if (Greet.InMSG)
-            {
-                Greetings();
-            }
-
-            if (Refer.Bot.InMSG)
-            {
-                Reference();
-            }
-
-            return OutputMSG;
-        }
-
-        #region Usefull functions
-
-
         /// <summary> Updates the list of Keywords thier InMSG boolean variable. Also Sets the CAny variable to True if there is at leased 1 keyword in the message. </summary>
-        private void UpdateKeywords(string Message)
+        private string UpdateKeywords(string Message)
         {
+            Message = MF.AddSaltMSG(Message, Salt);
+
+            SetupKeywords();
+
+
             //Check if the keywords are inside of the message
             for (int i = 0; i < TypesList.Count; i++)
             {
+                for (int j = 0; j < TypesList[i].KeyWords.Count(); j++)
+                {
+                    TypesList[i].KeyWords[j] = MF.AddSalt(TypesList[i].KeyWords[j], Salt);
+
+                }
                 TypesList[i].InMSG = MF.Contains(Message, TypesList[i].KeyWords);
                 if (TypesList[i].InMSG)
                 {
@@ -186,6 +198,8 @@ namespace Rix_Bot
             {
                 CAny = true;
             }
+
+            return Message;
         }
         #endregion Usefull functions
 
@@ -201,7 +215,7 @@ namespace Rix_Bot
 
             if (Keywordcount >= 2)
             {
-                string Resp = $"{MF.RandomResponse(Greet)} ";
+                string Resp = $"{MF.RandomResponse(Greet)} AFEJGJHHg ";
                 OutputMSG = $"{Resp}{OutputMSG}";
             }
         }
