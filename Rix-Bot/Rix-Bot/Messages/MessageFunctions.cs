@@ -16,21 +16,21 @@ namespace Rix_Bot.Messages
 
         #region Contains
         /// <summary> Checks if the message contains specified string value. If it does it will return true </summary>
-        public bool Contains(string Message, string Word)
+        public bool Contains(string Container, string Word)
         {
-            Message = Message.ToLower(); //ToLower to make sure that it is case insensitive.
+            Container = Container.ToLower(); //ToLower to make sure that it is case insensitive.
             Word = Word.ToLower();
-            bool Output = Message.Contains(Word);
+            bool Output = Container.Contains(Word);
             return Output;
         }
 
         /// <summary> Checks if the message contains the string values from a specified array. If any of the string values are contained in the message, then it will return true</summary>
-        public bool Contains(string Message, string[] keywords)
+        public bool Contains(string Container, string[] keywords)
         {
             bool Output = false;
             foreach (string Keyword in keywords)
             {
-                if (Contains(Message, Keyword))
+                if (Contains(Container, Keyword))
                 {
                     Output = true;
                 }
@@ -40,16 +40,16 @@ namespace Rix_Bot.Messages
         }
 
         /// <summary> Checks if the message contains both of the asked for keywords. If they are both in the Message it will return true </summary>
-        public bool Contains(string Message, string keyword1, string keyword2)
+        public bool Contains(string Container, string keyword1, string keyword2)
 
         {
             bool Output = false;
             int Counter = 0;
-            if (Contains(Message, keyword1))
+            if (Contains(Container, keyword1))
             {
                 Counter++;
             }
-            if (Contains(Message, keyword2))
+            if (Contains(Container, keyword2))
             {
                 Counter++;
             }
@@ -66,12 +66,10 @@ namespace Rix_Bot.Messages
         /// <returns>Returns a randomly selected string value</returns>
         public string RandomResponse(KeyTypes Keyword)
         {
-            int index = 0;
-
-            string Output = "";
+            int index;
             Random random = new Random();
             index = random.Next(0, Keyword.Response.Length);
-            Output = Keyword.Response[index];
+            string Output = Keyword.Response[index];
 
             return Output;
         }
@@ -79,12 +77,10 @@ namespace Rix_Bot.Messages
         /// <returns>Returns a randomly selected string value</returns>
         public string RandomResponse(string[] Keywords)
         {
-            int index = 0;
-
-            string Output;
+            int index;
             Random random = new Random();
             index = random.Next(0, Keywords.Length);
-            Output = Keywords[index];
+            string Output = Keywords[index];
 
             return Output;
         }
@@ -158,7 +154,7 @@ namespace Rix_Bot.Messages
             return Output;
         }
 
-
+        #region Salts
         /// <summary> Method generates a randomly generated number, this number is converted to a string. This string can be used for Keywords of a length that is too short</summary>
         /// <returns> Returns a randomly generated number in the form of a string variable </returns>
         public string GenerateSalt()
@@ -168,8 +164,8 @@ namespace Rix_Bot.Messages
 
             //Adding spices
             Salt = Convert.ToString(random.Next(0, 4687325));
-            Salt = Salt + Convert.ToString(random.Next(0, 4885948));
-            Salt = Salt + Convert.ToString(random.Next(0, 8374393));
+            Salt += Convert.ToString(random.Next(0, 4885948));
+            Salt += Convert.ToString(random.Next(0, 8374393));
 
             return Salt;
         }
@@ -241,7 +237,6 @@ namespace Rix_Bot.Messages
                     }
                 }
             }
-            Console.WriteLine(Message);
             return Message;
         }
         public string AddSalt(string Keyword, string[] Salt)
@@ -267,5 +262,6 @@ namespace Rix_Bot.Messages
             }
             return Keyword;
         }
+        #endregion Salts
     }
 }

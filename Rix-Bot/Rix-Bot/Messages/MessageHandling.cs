@@ -1,13 +1,8 @@
 ﻿using Rix_Bot.Messages;
 using SteamKit2;
-using SteamKit2.GC.TF2.Internal;
-using SteamKit2.Internal;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.NetworkInformation;
-using System.ServiceModel.Channels;
-using System.Text;
+
 
 namespace Rix_Bot
 {
@@ -27,6 +22,7 @@ namespace Rix_Bot
         }
     }
 
+    #region Keyword classes
     internal class help
     {
         public KeyTypes AskingFor;
@@ -38,14 +34,19 @@ namespace Rix_Bot
         public KeyTypes Bot;
     }
 
+    #endregion  Keyword classes
+
     class MessageHandling
     {
+        #region setup
+
         private readonly Setup setup;
         public MessageHandling(Setup setup)
         {
             this.setup = setup;
         }
         MessageFunctions MF = new MessageFunctions();
+        JSONParser JP = new JSONParser();
 
         //Keywords
         private KeyTypes Greet;
@@ -54,6 +55,8 @@ namespace Rix_Bot
         //Create a list
         List<KeyTypes> TypesList;
 
+        //JSONfile
+        string filepath;
 
         //Variables
         public static int Keywordcount;
@@ -69,45 +72,56 @@ namespace Rix_Bot
         string OutputMSG = null;
         string[] Salt = { null, null, null };
 
-
+        #endregion setup
 
         //MessageHandler: This generates a response based on the message that was sent by the Sender
         public string MessageHandler(string MSG, SteamID SID)
         {
-            for (int i = 0; i < Salt.Length; i++)
-            {
-                Salt[i] = MF.GenerateSalt();
-            }
-            if (BotName != setup.steamFriends.GetPersonaName())
-            {
-                BotName = setup.steamFriends.GetPersonaName();
-            }
+            filepath = JP.CombinePath(JP.GetExecutableLocation(), "MessAndResp.JSON");
 
-            Keywordcount = 0;
-            OutputMSG = null;
-
-            //Sets and gets the sender his/her's identity
+            //
             senderID = SID;
-            senderName = setup.steamFriends.GetFriendPersonaName(senderID);
 
+            OutputMSG = null;
+            Keywordcount = 0;
             Message = MSG.ToLower();
 
-            //Update the Keyword InMSG boolean variable
-            Message = UpdateKeywords(Message);
+            bool NeedToOverWrite = NeedOverWrite(filepath);
 
-            //Reactions to keywords
-            //If the sender greets the bot, it will send a greeting back
-
-            if (Greet.InMSG)
+            if (!NeedToOverWrite)
             {
-                Greetings();
+                //Sets and gets the sender his/her's identity
+                senderID = SID;
+                senderName = setup.steamFriends.GetFriendPersonaName(senderID);
+
+                //Update the Keyword InMSG boolean variable
+                Message = HandlerUpdate(Message);
+
+                //Reactions to keywords
+                //If the sender greets the bot, it will send a greeting back
+
+                if (Greet.InMSG)
+                {
+                    Greetings();
+                }
+
+                if (Refer.Bot.InMSG)
+                {
+                    Reference();
+                }
+
+            }
+            if (NeedToOverWrite)
+            {
+                SetupKeywords();
+                OutputMSG = JP.GetResponse(Message, filepath, BotName, senderName, Greet);
+                if (OutputMSG != null || OutputMSG.Length != 0 || OutputMSG != string.Empty)
+                {
+                    CAny = true;
+                }
             }
 
-            if (Refer.Bot.InMSG)
-            {
-                Reference();
-            }
-
+            System.Console.WriteLine(OutputMSG);
             return OutputMSG;
         }
 
@@ -120,6 +134,14 @@ namespace Rix_Bot
             Help.BotOfferingHelp = new KeyTypes();
             Refer.Sender = new KeyTypes();
             Refer.Bot = new KeyTypes();
+
+            //Setup the botname
+            if (BotName != setup.steamFriends.GetPersonaName())
+            {
+                BotName = setup.steamFriends.GetPersonaName();
+            }
+            //Setup Sender name
+            senderName = setup.steamFriends.GetFriendPersonaName(senderID);
 
             //List of Keywords it has to listen for
             TypesList = new List<KeyTypes>()
@@ -164,11 +186,18 @@ namespace Rix_Bot
             string[] BotNameRandomAdd = { "", "there ", "", "" };
             Refer.Bot.KeyWords = bot;
             Refer.Bot.RandomAddition = BotNameRandomAdd;
+
         }
 
         /// <summary> Updates the list of Keywords thier InMSG boolean variable. Also Sets the CAny variable to True if there is at leased 1 keyword in the message. </summary>
-        private string UpdateKeywords(string Message)
+        private string HandlerUpdate(string Message)
         {
+            //Generate 3 new salts
+            for (int i = 0; i < Salt.Length; i++)
+            {
+                Salt[i] = MF.GenerateSalt();
+            }
+            //Add the salts to the message
             Message = MF.AddSaltMSG(Message, Salt);
 
             SetupKeywords();
@@ -264,6 +293,24 @@ namespace Rix_Bot
                     }
                 }
             }
+        }
+
+        private bool NeedOverWrite(string filepath)
+        {
+            bool ReadyToRead;
+            bool NeedToOverWrite = false;
+
+            
+            string format = "{\"Bye\": {\"Message\": [\"Stuff to trigger the response #1\", \"Stuff to trigger the response #2\"],\"Response\": [\"Reaction to trigger\", \"Reaction to trigger\"]}}";
+            ReadyToRead = JP.WriteToNewFile(filepath, format);
+
+            if (ReadyToRead == true)
+            {
+                string Data = JP.ReadJSONData(filepath);
+                NeedToOverWrite = JP.JSONContainsKeyMessages(Message, Data, BotName);
+            }
+
+            return NeedToOverWrite;
         }
         #endregion Keyword Reactions
     }
