@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace Rix_Bot.Messages
@@ -16,11 +17,11 @@ namespace Rix_Bot.Messages
 
         #region Contains
         /// <summary> Checks if the message contains specified string value. If it does it will return true </summary>
-        public bool Contains(string Container, string Word)
+        public bool Contains(string Container, string Contain)
         {
             Container = Container.ToLower(); //ToLower to make sure that it is case insensitive.
-            Word = Word.ToLower();
-            bool Output = Container.Contains(Word);
+            Contain = Contain.ToLower();
+            bool Output = Container.Contains(Contain);
             return Output;
         }
 
@@ -58,6 +59,40 @@ namespace Rix_Bot.Messages
                 Output = true;
             }
             return Output;
+        }
+
+        /// <summary> Function checks if the Container contains Contain and replaces Contain with Replacement </summary>
+        /// <returns> Returns String with the Contain replaced with the Replacement parameter</returns>
+        public string ContainsReplace(string Container, string Contain, string Replacement)
+        {
+
+            if (Contains(Container, Contain))
+            {
+                var regex = new Regex(Contain, RegexOptions.IgnoreCase);
+                Container = regex.Replace(Container, Replacement);
+            }
+            return Container;
+        }
+
+        /// <summary> Function checks if the Container contains ContainArray and replaces ContainContainArray with Replacement </summary>
+        /// <returns> Returns String with the ContainArray replaced with the Replacement parameter</returns>
+        public string ContainsReplace(string Container, string[] ContainArray, string Replacement)
+        {
+            if (Contains(Container, ContainArray))
+            {
+                for (int i = 0; i < ContainArray.Length; i++)
+                {
+                    try
+                    {
+                        Container = ContainsReplace(Container, ContainArray[i], Replacement);
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
+                }
+            }
+            return Container;
         }
         #endregion Contains
 
@@ -129,6 +164,7 @@ namespace Rix_Bot.Messages
             return Output;
         }
         #endregion Occurance
+
         /// <summary> Divides the message into seperate sentences </summary>
         /// <returns>Returns a array of strings, each string is a separate sentence</returns>
         public string[] DivideIntoSentences(string Message)
@@ -170,7 +206,7 @@ namespace Rix_Bot.Messages
             return Salt;
         }
 
-        public string AddSaltMSG(string Message, string[] Salt)
+        public string AddSaltString(string Message, string[] Salt)
         {
             int count = 0;
             int index;

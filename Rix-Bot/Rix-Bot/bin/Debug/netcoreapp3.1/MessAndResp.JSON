@@ -1,14 +1,14 @@
 [{
 
-"Message": ["Hey Botname, how are you", "Botname, how are you", "Botname, how are you holding up", "Botname, how R U holding up", "Botname, how R you holding up", "Botname, how R U", "Botname, how are you doing", "Botname, how r u doing", "Botname, how r you doing", "Botname, how are u doing", "How are you", "How r u", "How r you", "How are u"],
+"Message": ["USERGREETSBOT BOTNAME, how AREYOUFLEX", "USERGREETSBOT BOTNAME, how AREYOUFLEX holding up", "USERGREETSBOT BOTNAME, how AREYOUFLEX holding up", "USERGREETSBOT BOTNAME, how AREYOUFLEX doing", "USERGREETSBOT, How AREYOUFLEX"],
 
-"Response": ["RandomGreet User, Im doing fantastic! RandomAdd", "RandomGreet User, Im doing great! RandomAdd", "RandomGreet User, Im holding up just fine! RandomAdd", "RandomGreet User, I am doing fine! RandomAdd","RandomGreet User, I am doing great! RandomAdd", "RandomGreet User, I am doing fantastic! RandomAdd", "RandomGreet User, I am holding up fine! RandomAdd", "RandomGreet User, I am holding up just fine! RandomAdd"],
+"Response": ["RANDOMGREET USER, I'm doing fantastic! RandomAdd", "RANDOMGREET USER, Im doing great! RANDOMADD", "RANDOMGREET USER, Im holding up just fine! RANDOMADD", "RANDOMGREET USER, I am doing fine! RANDOMADD","RANDOMGREET USER, I am doing great! RANDOMADD", "RANDOMGREET USER, I am doing fantastic! RANDOMADD", "RANDOMGREET USER, I am holding up fine! RANDOMADD", "RANDOMGREET USER, I am holding up just fine! RANDOMADD"],
 
-"RandomAdd": [ "How are you?", "How are you doing?", "How was your day?", "How has your day been?"]
+"RandomAdd": [ "How are you?", "How are you doing?", "How was your day?", "How has your day been?", "Thank you for asking!"]
 
 },{
 
-"Message": ["My day was great", "I Had a nice day", "My day was alright", "I am having a blast of a day", "My day is great", "I am having a nice day", "I'm having a nice day", "i am having a good day", "I'm having a good day"],
+"Message": ["My day was great", "I Had a nice day", "My day was alright", "IAMFLEX having a blast of a day", "My day is great", "IAMFLEX having a nice day", "IAMFLEX having a good day", "IAMFLEX having a great day"],
 "Response": ["That is great to hear!", "Nice to hear that!", "Great to hear that!", "Good to hear that it was well... Good!"]
 
 },{
@@ -16,8 +16,4 @@
 "Message": ["My day wasn't the best", "My day has not been the best", "My day hasn't been the best", "My day was not the best", "My day wasn't the great", "My day has not been the great", "My day hasn't been the great", "My day was not the greatest", "My day wasn't good", "My day has not been the good", "My day hasn't been good", "My day was not good", "I didnt have a good day", "I didn't have a good day", "I didnt have the greatest of days", "I didn't have the greatest of days", "I did not have a good day", "I did not have the greatest of days", "I did not have a good day", "I did not have the best of days", "I didn't have the best of days" ],
 "Response": ["What is going on?", "Hey, I'm here for you buddy!"]
 
-},{
-
-"Message": ["", "Bye2"],
-"Response": ["Hoi", "Hey"]
 }]

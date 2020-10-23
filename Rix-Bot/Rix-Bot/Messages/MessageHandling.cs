@@ -28,11 +28,7 @@ namespace Rix_Bot
         public KeyTypes AskingFor;
         public KeyTypes BotOfferingHelp;
     }
-    internal class references
-    {
-        public KeyTypes Sender;
-        public KeyTypes Bot;
-    }
+
 
     #endregion  Keyword classes
 
@@ -40,20 +36,29 @@ namespace Rix_Bot
     {
         #region setup
 
+        MessageFunctions MF = new MessageFunctions();
+        JSONParser JP = new JSONParser();
         private readonly Setup setup;
         public MessageHandling(Setup setup)
         {
             this.setup = setup;
         }
-        MessageFunctions MF = new MessageFunctions();
-        JSONParser JP = new JSONParser();
+
+        internal class references
+        {
+            public KeyTypes Sender;
+            public KeyTypes Bot;
+            public KeyTypes Iam;
+            public KeyTypes YouAre;
+            public KeyTypes AreYou;
+        }
 
         //Keywords
-        private KeyTypes Greet;
-        private references Refer = new references();
-        private help Help = new help();
+        public KeyTypes Greet;
+        public references Refer = new references();
+        public help Help = new help();
         //Create a list
-        List<KeyTypes> TypesList;
+        public List<KeyTypes> TypesList;
 
         //JSONfile
         string filepath;
@@ -77,49 +82,69 @@ namespace Rix_Bot
         //MessageHandler: This generates a response based on the message that was sent by the Sender
         public string MessageHandler(string MSG, SteamID SID)
         {
-            filepath = JP.CombinePath(JP.GetExecutableLocation(), "MessAndResp.JSON");
+            bool ValidMSG = false;
 
-            //
-            senderID = SID;
-
-            OutputMSG = null;
-            Keywordcount = 0;
-            Message = MSG.ToLower();
-
-            bool NeedToOverWrite = NeedOverWrite(filepath);
-
-            if (!NeedToOverWrite)
+            #region Determin Valid Message length
+            if (Message != null)
             {
-                //Sets and gets the sender his/her's identity
+                ValidMSG = true;
+            }
+            if (Message != string.Empty)
+            {
+                ValidMSG = true;
+            }
+            #endregion
+
+            //Prevents any work from being done if the Message is not a valid length
+            if (ValidMSG)
+            {
+                filepath = JP.CombinePath(JP.GetExecutableLocation(), "MessAndResp.JSON");
+                //Set vital information
                 senderID = SID;
-                senderName = setup.steamFriends.GetFriendPersonaName(senderID);
+                //Setup the botname
+                BotName = setup.steamFriends.GetPersonaName();
 
-                //Update the Keyword InMSG boolean variable
-                Message = HandlerUpdate(Message);
+                OutputMSG = null;
+                Keywordcount = 0;
+                Message = MSG.ToLower();
 
-                //Reactions to keywords
-                //If the sender greets the bot, it will send a greeting back
+                bool NeedToOverWrite = NeedOverWrite(filepath);
 
-                if (Greet.InMSG)
+                if (!NeedToOverWrite)
                 {
-                    Greetings();
+                    //Sets and gets the sender his/her's identity
+                    senderID = SID;
+                    senderName = setup.steamFriends.GetFriendPersonaName(senderID);
+
+                    //Update the Keyword InMSG boolean variable
+                    Message = HandlerUpdate(Message);
+
+                    //Reactions to keywords
+                    //If the sender greets the bot, it will send a greeting back
+
+                    if (Greet.InMSG)
+                    {
+                        Greetings();
+                    }
+
+                    if (Refer.Bot.InMSG)
+                    {
+                        Reference();
+                    }
+
                 }
 
-                if (Refer.Bot.InMSG)
+                if (NeedToOverWrite)
                 {
-                    Reference();
+                    SetupKeywords(Message);
+                    OutputMSG = JP.GetResponse(Message, filepath, BotName, senderName, this);
+                    if (OutputMSG != null || OutputMSG.Length != 0 || OutputMSG != string.Empty)
+                    {
+                        CAny = true;
+                    }
                 }
-
             }
-            if (NeedToOverWrite)
-            {
-                SetupKeywords();
-                OutputMSG = JP.GetResponse(Message, filepath, BotName, senderName, Greet);
-                if (OutputMSG != null || OutputMSG.Length != 0 || OutputMSG != string.Empty)
-                {
-                    CAny = true;
-                }
-            }
+
 
             System.Console.WriteLine(OutputMSG);
             return OutputMSG;
@@ -127,19 +152,20 @@ namespace Rix_Bot
 
         #region Usefull functions
         //Keywords
-        public void SetupKeywords()
+        public void SetupKeywords(string Message)
         {
+            #region Setup
             Greet = new KeyTypes();
             Help.AskingFor = new KeyTypes();
             Help.BotOfferingHelp = new KeyTypes();
+
+            //references
             Refer.Sender = new KeyTypes();
             Refer.Bot = new KeyTypes();
+            Refer.Iam = new KeyTypes();
+            Refer.YouAre = new KeyTypes();
+            Refer.AreYou = new KeyTypes();
 
-            //Setup the botname
-            if (BotName != setup.steamFriends.GetPersonaName())
-            {
-                BotName = setup.steamFriends.GetPersonaName();
-            }
             //Setup Sender name
             senderName = setup.steamFriends.GetFriendPersonaName(senderID);
 
@@ -148,8 +174,22 @@ namespace Rix_Bot
             {
                 Greet,
                 Refer.Sender,
-                Refer.Bot
+                Refer.Bot,
+                Refer.AreYou,
+                Refer.Iam,
+                Refer.YouAre
             };
+
+            #endregion Setup
+
+            //Generate 3 new salts
+            for (int i = 0; i < Salt.Length; i++)
+            {
+                Salt[i] = MF.GenerateSalt();
+            }
+
+            //Add the salts to the message
+            Message = MF.AddSaltString(Message, Salt);
 
             //Greeting
             string[] greetings = { "Hello", "Hi", "Hai", "Hoi", "Howdy", "Hey", "Hoy", "Ahoy", "Hallo", "Excuse me" };
@@ -158,6 +198,7 @@ namespace Rix_Bot
             Greet.Response = greetingsResponse;
 
 
+            #region Help
             //
             // Help
             // 
@@ -173,6 +214,9 @@ namespace Rix_Bot
             string[] BOHHResponse = { "How can I help you?", "How can I be of service?" };
             Help.BotOfferingHelp.Response = BOHHResponse;
 
+            #endregion Help
+
+            #region References
             //
             // References
             //
@@ -187,23 +231,22 @@ namespace Rix_Bot
             Refer.Bot.KeyWords = bot;
             Refer.Bot.RandomAddition = BotNameRandomAdd;
 
-        }
+            //I Am
+            string[] IAMFLEX = { "I'M", "I AM", "IM" };
+            Refer.Iam.KeyWords = IAMFLEX;
 
-        /// <summary> Updates the list of Keywords thier InMSG boolean variable. Also Sets the CAny variable to True if there is at leased 1 keyword in the message. </summary>
-        private string HandlerUpdate(string Message)
-        {
-            //Generate 3 new salts
-            for (int i = 0; i < Salt.Length; i++)
-            {
-                Salt[i] = MF.GenerateSalt();
-            }
-            //Add the salts to the message
-            Message = MF.AddSaltMSG(Message, Salt);
+            //YouAre
+            string[] YOUAREFLEX = { "U R", "U ARE", "You are", "You R", "You're", "Youre" };
+            Refer.YouAre.KeyWords = YOUAREFLEX;
 
-            SetupKeywords();
+            //AreYou
+            string[] AREYOUFLEX = { "R U", "ARE U", "ARE YOU", "R YOU" };
+            Refer.AreYou.KeyWords = AREYOUFLEX;
+
+            #endregion References
 
 
-            //Check if the keywords are inside of the message
+            //Add salt to the keywords
             for (int i = 0; i < TypesList.Count; i++)
             {
                 for (int j = 0; j < TypesList[i].KeyWords.Count(); j++)
@@ -211,6 +254,18 @@ namespace Rix_Bot
                     TypesList[i].KeyWords[j] = MF.AddSalt(TypesList[i].KeyWords[j], Salt);
 
                 }
+            }
+        }
+
+        /// <summary> Updates the list of Keywords thier InMSG boolean variable. Also Sets the CAny variable to True if there is at leased 1 keyword in the message. </summary>
+        private string HandlerUpdate(string Message)
+        {
+            SetupKeywords(Message);
+
+
+            //Check if the keywords are inside of the message
+            for (int i = 0; i < TypesList.Count; i++)
+            {
                 TypesList[i].InMSG = MF.Contains(Message, TypesList[i].KeyWords);
                 if (TypesList[i].InMSG)
                 {
@@ -307,7 +362,7 @@ namespace Rix_Bot
             if (ReadyToRead == true)
             {
                 string Data = JP.ReadJSONData(filepath);
-                NeedToOverWrite = JP.JSONContainsKeyMessages(Message, Data, BotName);
+                NeedToOverWrite = JP.JSONContainsKeyMessages(Message, Data, BotName, this);
             }
 
             return NeedToOverWrite;

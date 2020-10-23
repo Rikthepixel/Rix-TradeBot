@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SteamKit2.GC.Artifact.Internal;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,6 +16,7 @@ namespace Rix_Bot.Messages
     class JSONParser
     {
         MessageFunctions MF = new MessageFunctions();
+
         #region General
 
         public void CreateFile(string FilePath)
@@ -86,20 +88,39 @@ namespace Rix_Bot.Messages
 
             return Data;
         }
-        public bool JSONContainsKeyMessages(string Message, string JSONdata, string Botname)
+        public bool JSONContainsKeyMessages(string Message, string JSONdata, string Botname, MessageHandling MH)
         {
             bool Output = false;
             bool temp = false;
+            
             var Data = JsonConvert.DeserializeObject<dynamic>(JSONdata);
+
+            //Main recognition loop
             for (int i = 0; i < Data.Count; i++)
             {
+                //Secondairy recognition loop
                 for (int j = 0; j < Data[i].Message.Count; j++)
                 {
+                    #region Flexible "Contains" recognition
                     string TEMPstring = Data[i].Message[j];
-                    if (TEMPstring.Contains("Botname"))
-                    {
-                        TEMPstring = TEMPstring.Replace("Botname", Botname);
-                    }
+
+                    #region JSON template
+                    //Replace JSON message Template
+
+                    TEMPstring = MF.ContainsReplace(TEMPstring, "BOTNAME", Botname);
+
+
+                    #endregion JSON template
+
+                    #region Message
+                    //Replace Items in Message
+                    Message = MF.ContainsReplace(Message, MH.Refer.Iam.KeyWords, "IAMFLEX");
+                    Message = MF.ContainsReplace(Message, MH.Refer.YouAre.KeyWords, "YOUAREFLEX");
+                    Message = MF.ContainsReplace(Message, MH.Refer.AreYou.KeyWords, "AREYOUFLEX");
+                    Message = MF.ContainsReplace(Message, MH.Greet.KeyWords, "USERGREETSBOT");
+                    #endregion Message
+
+                    #endregion Flexible "Contains" recognition
                     temp = MF.Contains(Message, TEMPstring);
                     if(temp == true)
                     {
@@ -113,62 +134,95 @@ namespace Rix_Bot.Messages
 
         #region Response
 
-        public string GetResponse(string Message, string FilePath, string Botname, string SenderName, KeyTypes Greeting)
+        public string GetResponse(string Message, string FilePath, string Botname, string SenderName, MessageHandling MH)
         {
             string Output = string.Empty;
+
             bool ResponseChosen = false;
+
+
             var JSONdata = ReadJSONData(FilePath);
             var Data = JsonConvert.DeserializeObject<dynamic>(JSONdata);
+
+            //Main recognition loop
             for (int i = 0; i < Data.Count; i++)
             {
+                //Secondairy recognition loop
                 for (int j = 0; j < Data[i].Message.Count; j++)
                 {
+                    #region Flexible "Contains" recognition
                     string TEMPstring = Data[i].Message[j];
-                    if (TEMPstring.Contains("Botname"))
-                    {
-                        TEMPstring = TEMPstring.Replace("Botname", Botname);
-                    }
+                    
+                    #region JSON template
+                    //Replace JSON message Template
+
+                    TEMPstring = MF.ContainsReplace(TEMPstring, "Botname", Botname);
+
+                    #endregion JSON template
+
+                    #region Message
+                    //Replace Items in Message
+
+                    Message = MF.ContainsReplace(Message, MH.Refer.Iam.KeyWords, "IAMFLEX");
+                    Message = MF.ContainsReplace(Message, MH.Refer.YouAre.KeyWords, "YOUAREFLEX");
+                    Message = MF.ContainsReplace(Message, MH.Refer.AreYou.KeyWords, "AREYOUFLEX");
+                    Message = MF.ContainsReplace(Message, MH.Greet.KeyWords, "USERGREETSBOT");
+
+                    #endregion Message
+
+                    #endregion Flexible "Contains" recognition
+
+                    //If the message contains the TEMPstring and the response is not Chosen yet
                     if (MF.Contains(Message, TEMPstring) && !ResponseChosen)
                     {
                         //Create a Temporairy Array Because you cant feed Data[i].Response into an array directly
-                        string[] TEMPArray = new string[Data[i].Response.Count];
+                        string[] TEMPRespArray = new string[Data[i].Response.Count];
                         for (int R = 0; R < Data[i].Response.Count; R++)
                         {
-                            TEMPArray[R] = Data[i].Response[R];
+                            TEMPRespArray[R] = Data[i].Response[R];
                         }
 
-
-                        string resp = MF.RandomResponse(TEMPArray);
-
-                        if (resp.Contains("User"))
+                        //Grab a response out of the TempRespArray
+                        string resp = MF.RandomResponse(TEMPRespArray);
+                        //Replace JSON response Template
+                        resp = MF.ContainsReplace(resp, "USER", SenderName);
+                        resp = MF.ContainsReplace(resp, "RANDOMGREET", MF.RandomResponse(MH.Greet.Response));
+                        
+                        //RandomAdditions
+                        if (MF.Contains(resp, "RANDOMADD"))
                         {
-                            resp = resp.Replace("User", SenderName);
-                        }
-
-                        if (MF.Contains(resp, "RandomGreet")){
-                            resp = resp.Replace("RandomGreet", MF.RandomResponse(Greeting.Response));
-                        }
-
-                        if (MF.Contains(resp, "RandomAdd"))
-                        {
-                            string[] TEMPRandArray = new string[Data[i].RandomAdd.Count];
-                            for (int T = 0; T < Data[i].RandomAdd.Count; T++)
+                            //Try and Add a RandomAddition to the Response
+                            try
                             {
-                                TEMPRandArray[T] = Data[i].RandomAdd[T];
+                                string[] TEMPRandArray = new string[Data[i].RandomAdd.Count];
+                                for (int T = 0; T < Data[i].RandomAdd.Count; T++)
+                                {
+                                    TEMPRandArray[T] = Data[i].RandomAdd[T];
+                                }
+                                Random random = new Random();
+                                int Index = random.Next(0, 100);
+                                if (Index >= 80)
+                                {
+                                    resp = resp.Replace("RandomAdd", MF.RandomResponse(TEMPRandArray));
+                                }
+                                else
+                                {
+                                    resp = resp.Replace("RandomAdd", "");
+                                }
                             }
-                            Random random = new Random();
-                            int Index = random.Next(0, 100);
-                            if (Index >= 80)
+                            catch (Exception)
                             {
-                                resp = resp.Replace("RandomAdd", MF.RandomResponse(TEMPRandArray));
-                            } else
-                            {
+                                //Makes sure that if the "MessResp" doesnt have a RandomAdd array
+                                //That it wont crash
+
+                                //Replace the RandomAdd so that the User doesnt see the RandomAdd
                                 resp = resp.Replace("RandomAdd", "");
                             }
                         }
 
                         Output = resp;
 
+                        //Reset Chosen response to false
                         ResponseChosen = true;
                     }
                 }
