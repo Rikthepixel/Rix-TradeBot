@@ -8,7 +8,16 @@
 
 },{
 
+"Message": ["BOTNAME, how AREYOUFLEX", "BOTNAME, how AREYOUFLEX holding up", "BOTNAME, how AREYOUFLEX holding up", "BOTNAME, how AREYOUFLEX doing", "USERGREETSBOT, How AREYOUFLEX"],
+
+"Response": ["I'm doing fantastic! RandomAdd", "Im doing great! RANDOMADD", "I'm holding up just fine! RANDOMADD", "I am doing fine! RANDOMADD","I am doing great! RANDOMADD", "I am holding up just fine! RANDOMADD"],
+
+"RandomAdd": [ "How are you?", "How are you doing?", "How was your day?", "How has your day been?", "Thank you for asking!"]
+
+},{
+
 "Message": ["My day was great", "I Had a nice day", "My day was alright", "IAMFLEX having a blast of a day", "My day is great", "IAMFLEX having a nice day", "IAMFLEX having a good day", "IAMFLEX having a great day"],
+
 "Response": ["That is great to hear!", "Nice to hear that!", "Great to hear that!", "Good to hear that it was well... Good!"]
 
 },{

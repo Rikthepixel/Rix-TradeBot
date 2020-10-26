@@ -108,6 +108,7 @@ namespace Rix_Bot
                 Keywordcount = 0;
                 Message = MSG.ToLower();
 
+                SetupKeywords(Message);
                 bool NeedToOverWrite = NeedOverWrite(filepath);
 
                 if (!NeedToOverWrite)
@@ -136,7 +137,6 @@ namespace Rix_Bot
 
                 if (NeedToOverWrite)
                 {
-                    SetupKeywords(Message);
                     OutputMSG = JP.GetResponse(Message, filepath, BotName, senderName, this);
                     if (OutputMSG != null || OutputMSG.Length != 0 || OutputMSG != string.Empty)
                     {
@@ -234,7 +234,7 @@ namespace Rix_Bot
             //I Am
             string[] IAMFLEX = { "I'M", "I AM", "IM" };
             Refer.Iam.KeyWords = IAMFLEX;
-
+            
             //YouAre
             string[] YOUAREFLEX = { "U R", "U ARE", "You are", "You R", "You're", "Youre" };
             Refer.YouAre.KeyWords = YOUAREFLEX;
@@ -354,6 +354,7 @@ namespace Rix_Bot
         {
             bool ReadyToRead;
             bool NeedToOverWrite = false;
+
 
             
             string format = "{\"Bye\": {\"Message\": [\"Stuff to trigger the response #1\", \"Stuff to trigger the response #2\"],\"Response\": [\"Reaction to trigger\", \"Reaction to trigger\"]}}";
