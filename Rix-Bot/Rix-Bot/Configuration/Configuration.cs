@@ -21,8 +21,8 @@ namespace Rix_Bot
             LoginDetailType = LoginType.BuiltinLoginDetails;
 
                 //these login details are used if LoginDetailType = LoginType.BuiltinLoginDetails
-                    Username = "kayob93918";     //Username
-                    Password = "TEMPac123";   //Password
+                    Username = "kayob93918";     //Username (Temp account)
+                    Password = "TEMPac123";   //Password (Temp account)
 
             // Authentication Type:
             // Either Manually fill in the Authentication code each time you start the application (AuthType.ManualAuthcode)

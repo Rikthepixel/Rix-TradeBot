@@ -199,15 +199,17 @@ namespace Rix_Bot.Messages
                                 {
                                     TEMPRandArray[T] = Data[i].RandomAdd[T];
                                 }
+                                //Generate a random number
                                 Random random = new Random();
                                 int Index = random.Next(0, 100);
+
                                 if (Index >= 80)
                                 {
-                                    resp = resp.Replace("RandomAdd", MF.RandomResponse(TEMPRandArray));
+                                    resp = MF.ContainsReplace(resp, "RandomAdd", MF.RandomResponse(TEMPRandArray));
                                 }
                                 else
                                 {
-                                    resp = resp.Replace("RandomAdd", "");
+                                    resp = MF.ContainsReplace(resp, "RandomAdd", "");
                                 }
                             }
                             catch (Exception)
@@ -216,7 +218,7 @@ namespace Rix_Bot.Messages
                                 //That it wont crash
 
                                 //Replace the RandomAdd so that the User doesnt see the RandomAdd
-                                resp = resp.Replace("RandomAdd", "");
+                                resp = MF.ContainsReplace(resp, "RandomAdd", "");
                             }
                         }
 

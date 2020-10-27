@@ -59,3 +59,4 @@ D:\Gebruikers\rikde\Documents\github\Rix-TradeBot\Rix-Bot\Rix-Bot\obj\Debug\netc
 D:\Gebruikers\rikde\Documents\github\Rix-TradeBot\Rix-Bot\Rix-Bot\obj\Debug\netcoreapp3.1\Rix-Bot.csprojAssemblyReference.cache
 D:\Gebruikers\rikde\Documents\github\Rix-TradeBot\Rix-Bot\Rix-Bot\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
 D:\Gebruikers\rikde\Documents\github\Rix-TradeBot\Rix-Bot\Rix-Bot\obj\Debug\netcoreapp3.1\Rix-Bot.csproj.CoreCompileInputs.cache
+C:\Users\Rik\Documents\Github\Rix-TradeBot\Rix-Bot\Rix-Bot\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
